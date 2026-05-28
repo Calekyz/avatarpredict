@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Aviator Predictor 4.0 | Next‑Gen Flight Analytics</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Poppins', 'Arial', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 30%, #0a0f1e, #03060c);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    /* main glass panel */
+    .container {
+      max-width: 550px;
+      width: 100%;
+      background: rgba(12, 20, 30, 0.65);
+      backdrop-filter: blur(12px);
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 215, 140, 0.3);
+      box-shadow: 0 25px 45px rgba(0,0,0,0.5), 0 0 0 1px rgba(210, 180, 90, 0.2);
+      padding: 2rem 1.8rem;
+      transition: all 0.3s ease;
+    }
+
+    /* aviation style header */
+    .logo-area {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .logo-img {
+      width: 80px;
+      height: auto;
+      filter: drop-shadow(0 0 6px #ffb347);
+    }
+    h1 {
+      font-size: 2rem;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #f9e0a0, #d4af37);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 700;
+      margin-top: 0.5rem;
+    }
+    .tagline {
+      color: #b9c7d9;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      border-top: 1px solid rgba(255,200,100,0.4);
+      display: inline-block;
+      padding-top: 6px;
+    }
+
+    /* sections */
+    .page {
+      transition: opacity 0.25s ease;
+    }
+    .hidden-page {
+      display: none;
+    }
+
+    /* form & button styling */
+    .input-group {
+      margin-bottom: 1.3rem;
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      color: #ebd5b3;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: #0f1a24;
+      border: 1px solid #3e4d5e;
+      border-radius: 1.5rem;
+      color: #f0f2f5;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.2s;
+    }
+    input:focus {
+      border-color: #f3b33d;
+      box-shadow: 0 0 8px rgba(243,179,61,0.4);
+    }
+
+    .btn {
+      width: 100%;
+      background: linear-gradient(95deg, #d4af37, #ffc857);
+      border: none;
+      padding: 0.85rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 3rem;
+      color: #1e2a32;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.2s;
+      margin-top: 0.8rem;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.3);
+    }
+    .btn:active {
+      transform: scale(0.97);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #d4af37;
+      color: #ffdd99;
+      box-shadow: none;
+    }
+    .payment-option {
+      background: #0e1622b3;
+      border-radius: 1.2rem;
+      margin: 1rem 0;
+      padding: 0.8rem;
+      text-align: center;
+      border: 1px solid #3e4a5b;
+      transition: 0.2s;
+    }
+    .payment-option h3 {
+      color: #ffd966;
+    }
+    .flex-btns {
+      display: flex;
+      gap: 12px;
+      margin-top: 0.5rem;
+    }
+    .crypto-demo {
+      background: #111c26;
+      padding: 0.6rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
+      word-break: break-all;
+    }
+    .loader {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #ffc857;
+      animation: spin 0.8s linear infinite;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .creds-box {
+      background: #07121ecc;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-left: 6px solid #ffc857;
+      font-family: monospace;
+      font-size: 1.1rem;
+    }
+    .alert {
+      background: #2e1a1a;
+      color: #ffaa88;
+      border-radius: 2rem;
+      padding: 0.6rem;
+      text-align: center;
+    }
+    footer {
+      font-size: 0.7rem;
+      text-align: center;
+      margin-top: 2rem;
+      color: #6e7c8c;
+    }
+    .aviator-badge {
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23f3b33d" width="18px" height="18px"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>') no-repeat center;
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+<div class="container" id="appRoot">
+  <!-- ================= LANDING / LOGIN PAGE ================= -->
+  <div id="landingPage" class="page">
+    <div class="logo-area">
+      <!-- Replace with your own aviator image (e.g. pilot helmet, plane) -->
+      <img class="logo-img" src="https://placehold.co/100x100/2c3e42/d4af37?text=✈️" alt="Aviator logo">
+      <h1>AVIATOR PREDICTOR 4.0</h1>
+      <div class="tagline">⛅ Precision Flight Analytics ⛅</div>
+    </div>
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <p style="color:#ccddee;">Real‑time crash predictor · Provably fair assistant<br> 
+      <span style="font-size:0.8rem;">Login to access exclusive dashboard</span></p>
+    </div>
+
+    <!-- mock "login" fields – they will be used AFTER payment / generation -->
+    <div class="input-group">
+      <label>👨‍✈️ Username</label>
+      <input type="text" id="loginUsername" placeholder="Enter username from payment">
+    </div>
+    <div class="input-group">
+      <label>🔐 Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter password">
+    </div>
+    <button class="btn" id="doLoginBtn">✈️ LOGIN TO PREDICTOR</button>
+    <div style="text-align: center; margin-top: 1.5rem;">
+      <button class="btn-outline btn" id="getLoginsBtn" style="width: auto; padding: 0.6rem 1.8rem;">🎫 GET LOGINS →</button>
+    </div>
+    <div id="landingMessage" class="alert" style="margin-top: 1rem; display: none;"></div>
+    <footer>© 2026 Aviator Predictor 4.0 | AI‑powered simulations</footer>
+  </div>
+
+  <!-- ================= PAYMENT PAGE ================= -->
+  <div id="paymentPage" class="page hidden-page">
+    <div class="logo-area">
+      <h2 style="font-size: 1.6rem;">💳 Unlock Access</h2>
+      <p style="color:#d4c2a5;">Choose your payment method</p>
+    </div>
+
+    <!-- Crypto option -->
+    <div class="payment-option">
+      <h3>₿ Cryptocurrency</h3>
+      <p>Send USDT / BTC to receive instant credentials</p>
+      <div class="crypto-demo">
+        <strong>Wallet (demo):</strong> 0x1aBc...789d<br>
+        <span style="font-size:12px;">After payment, click "I paid (simulated)"</span>
+      </div>
+      <button class="btn" id="cryptoPaidMockBtn" style="background: #2c3e50; margin-top: 12px;">🔄 SIMULATE PAYMENT (crypto)</button>
+    </div>
+
+    <!-- M‑Pesa via Nestlink -->
+    <div class="payment-option">
+      <h3>📱 M‑Pesa (Nestlink)</h3>
+      <p>Pay via Lipa Na M‑Pesa – secure & instant</p>
+      <button class="btn" id="mpesaNestlinkBtn">💸 Pay with M‑Pesa</button>
+      <div class="crypto-demo" style="margin-top: 12px;">
+        ⚡ <strong>Your Nestlink tokens</strong> (replace with real ones):<br>
+        <span id="nestlinkPlaceholder">payment_link_token_here /  merchant_secret</span>
+      </div>
+    </div>
+
+    <div id="paymentStatus" class="alert" style="margin-top: 1rem; display: none;"></div>
+    <button class="btn-outline btn" id="backToLandingFromPay" style="margin-top: 1rem;">← Back</button>
+    <footer>All transactions are encrypted</footer>
+  </div>
+
+  <!-- ================= DASHBOARD (after login) ================= -->
+  <div id="dashboardPage" class="page hidden-page">
+    <div class="logo-area">
+      <h2>📡 AVIATOR PREDICTOR 4.0</h2>
+      <div class="tagline">live probability engine</div>
+    </div>
+    <div id="dashboardContent">
+      <p style="background: #101a24; padding: 1rem; border-radius: 1rem; margin: 1rem 0;">
+        🟢 Next multiplier forecast: <strong style="color:#ffc857;">2.34x (high confidence)</strong><br>
+        📊 Historical trend: 70% chance of crash above 1.8x<br>
+        ⚡ Smart alerts active
+      </p>
+      <div class="creds-box" id="displayCurrentCreds">
+        <!-- will show logged in user -->
+      </div>
+      <button class="btn-outline btn" id="logoutBtn">🚪 Logout</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ------------------------- CONFIGURATION -------------------------
+  // Replace this with your actual Nestlink payment link & tokens
+  const NESTLINK_CONFIG = {
+    paymentUrl: "https://sandbox.nestlink.com/pay/your_merchant_id",  // ⚠️ CHANGE TO REAL NESTLINK URL
+    apiToken: "your_nestlink_token_here",
+    paybill: "123456"   // example
+  };
+
+  // demo storage key for generated credentials (in real app use backend)
+  const STORAGE_KEY = "aviator_creds";
+
+  // helper: show only selected page
+  function showPage(pageId) {
+    document.getElementById('landingPage').classList.add('hidden-page');
+    document.getElementById('paymentPage').classList.add('hidden-page');
+    document.getElementById('dashboardPage').classList.add('hidden-page');
+    document.getElementById(pageId).classList.remove('hidden-page');
+  }
+
+  // generate random login credentials (called after payment confirmation)
+  function generateAndStoreCredentials() {
+    const randomUser = "AVIATOR_" + Math.random().toString(36).substring(2, 10).toUpperCase();
+    const randomPass = Math.random().toString(36).substring(2, 12) + "!4";
+    const creds = { username: randomUser, password: randomPass };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(creds));
+    return creds;
+  }
+
+  // show generated credentials on payment success
+  function handlePaymentSuccess() {
+    let creds = localStorage.getItem(STORAGE_KEY);
+    if (!creds) {
+      creds = generateAndStoreCredentials();
+    } else {
+      creds = JSON.parse(creds);
+    }
+    // display them and ask user to login now
+    const msgDiv = document.getElementById('paymentStatus');
+    msgDiv.style.display = 'block';
+    msgDiv.innerHTML = `✅ PAYMENT VERIFIED! <br><strong>Your auto‑generated login:</strong><br>
+                        👤 ${creds.username}<br> 🔑 ${creds.password}<br>
+                        <span style="font-size:0.8rem;">(copy these, then click "Login to Predictor" on main page)</span>`;
+    msgDiv.style.background = "#164c2c";
+    msgDiv.style.color = "#e9ffdb";
+    
+    // prefill login fields in landing page
+    document.getElementById('loginUsername').value = creds.username;
+    document.getElementById('loginPassword').value = creds.password;
+    
+    // after 3 sec suggest back to login
+    setTimeout(() => {
+      if(confirm("Credentials saved. Go to login page now?")) {
+        showPage('landingPage');
+        document.getElementById('landingMessage').innerHTML = "✅ New login credentials generated! Use them above.";
+        document.getElementById('landingMessage').style.display = 'block';
+      }
+    }, 1500);
+  }
+
+  // M-Pesa Nestlink integration (redirect simulation)
+  function redirectToNestlink() {
+    // In real implementation, you'd redirect to Nestlink payment page with your tokens.
+    // Here we open a new tab/window with the Nestlink payment link.
+    // The user pays there. After successful payment, Nestlink should call your webhook.
+    // For DEMO, we assume after returning to this page user clicks a "I completed payment" button.
+    // However for smooth UX, we provide a manual confirmation because we don't have a backend.
+    // But you can replace this with automatic webhook redirect.
+    
+    const nestlinkFullUrl = `${NESTLINK_CONFIG.paymentUrl}?token=${NESTLINK_CONFIG.apiToken}&amount=500&reference=AVIATOR_${Date.now()}`;
+    // Show info & ask user to return
+    window.open(nestlinkFullUrl, '_blank');
+    const statusDiv = document.getElementById('paymentStatus');
+    statusDiv.style.display = 'block';
+    statusDiv.innerHTML = `🔄 Redirected to Nestlink payment page. Complete payment then <strong>click below button</strong> to confirm.`;
+    // add confirm button if not already there
+    let confirmBtn = document.getElementById('manualConfirmMpesa');
+    if(!confirmBtn) {
+      confirmBtn = document.createElement('button');
+      confirmBtn.id = 'manualConfirmMpesa';
+      confirmBtn.innerText = '✅ I HAVE COMPLETED M-PESA PAYMENT';
+      confirmBtn.className = 'btn';
+      confirmBtn.style.marginTop = '12px';
+      confirmBtn.onclick = () => {
+        handlePaymentSuccess();
+        confirmBtn.remove();
+      };
+      statusDiv.appendChild(confirmBtn);
+    }
+  }
+
+  // event listeners
+  document.getElementById('getLoginsBtn').addEventListener('click', () => {
+    showPage('paymentPage');
+  });
+
+  document.getElementById('backToLandingFromPay').addEventListener('click', () => {
+    showPage('landingPage');
+    document.getElementById('paymentStatus').style.display = 'none';
+  });
+
+  // mock crypto payment (for demo)
+  document.getElementById('cryptoPaidMockBtn').addEventListener('click', () => {
+    // simulate payment confirmation
+    handlePaymentSuccess();
+  });
+
+  // M-Pesa real redirect
+  document.getElementById('mpesaNestlinkBtn').addEventListener('click', () => {
+    redirectToNestlink();
+  });
+
+  // LOGIN logic (uses stored credentials)
+  document.getElementById('doLoginBtn').addEventListener('click', () => {
+    const enteredUser = document.getElementById('loginUsername').value.trim();
+    const enteredPass = document.getElementById('loginPassword').value.trim();
+    const storedRaw = localStorage.getItem(STORAGE_KEY);
+    if(!storedRaw) {
+      document.getElementById('landingMessage').innerHTML = "❌ No credentials found. Please get logins via payment first.";
+      document.getElementById('landingMessage').style.display = 'block';
+      return;
+    }
+    const stored = JSON.parse(storedRaw);
+    if(enteredUser === stored.username && enteredPass === stored.password) {
+      // successful login
+      document.getElementById('displayCurrentCreds').innerHTML = `✈️ Logged as: <strong>${stored.username}</strong> | Plan: Premium Predictor`;
+      showPage('dashboardPage');
+    } else {
+      document.getElementById('landingMessage').innerHTML = "⚠️ Invalid username or password. Did you pay & receive credentials?";
+      document.getElementById('landingMessage').style.display = 'block';
+    }
+  });
+
+  // logout
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    showPage('landingPage');
+    document.getElementById('loginUsername').value = '';
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('landingMessage').innerHTML = "You have been logged out.";
+    document.getElementById('landingMessage').style.display = 'block';
+  });
+
+  // optional: display nestlink placeholder info
+  document.getElementById('nestlinkPlaceholder').innerText = `${NESTLINK_CONFIG.paymentUrl} | token: ${NESTLINK_CONFIG.apiToken}`;
+  
+  // preload any existing credentials into landing fields for convenience
+  const existing = localStorage.getItem(STORAGE_KEY);
+  if(existing) {
+    const creds = JSON.parse(existing);
+    document.getElementById('loginUsername').value = creds.username;
+    document.getElementById('loginPassword').value = creds.password;
+  }
+</script>
+</body>
+</html>
