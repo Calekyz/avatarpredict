@@ -3,484 +3,399 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Aviator Predictor 4.0 | Red Squadron</title>
+  <title>Aviator Predictor 4.0 | Professional Flight Analyzer</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Poppins', 'Segoe UI', 'Arial', sans-serif;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
     }
 
     body {
       min-height: 100vh;
-      background: radial-gradient(circle at 30% 10%, #0a0c15, #020408);
+      background: #0b0e17;
+      background-image: radial-gradient(circle at 25% 0%, #1a1f2e 0%, #06080f 100%);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 1.5rem;
+      padding: 2rem;
     }
 
-    /* glass container – dark red accents */
-    .container {
-      max-width: 600px;
+    .app-card {
+      max-width: 650px;
       width: 100%;
-      background: rgba(8, 10, 20, 0.9);
-      backdrop-filter: blur(14px);
+      background: rgba(12, 16, 28, 0.92);
+      backdrop-filter: blur(16px);
       border-radius: 2rem;
-      border: 1px solid rgba(220, 38, 38, 0.5);
-      box-shadow: 0 25px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(185, 28, 28, 0.3);
-      padding: 2rem 1.8rem;
-      transition: all 0.3s ease;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      box-shadow: 0 30px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(185, 28, 28, 0.3);
+      overflow: hidden;
     }
 
-    .logo-area {
-      text-align: center;
-      margin-bottom: 1.5rem;
+    .content {
+      padding: 2rem 1.8rem;
     }
-    /* red plane logo */
-    .logo-img {
-      font-size: 4.5rem;
-      filter: drop-shadow(0 0 8px #ef4444);
+
+    .header {
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+    .plane-logo {
+      font-size: 3.8rem;
+      filter: drop-shadow(0 0 10px #ef4444);
       display: inline-block;
+      animation: subtleFloat 3s ease-in-out infinite;
+    }
+    @keyframes subtleFloat {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+      100% { transform: translateY(0px); }
     }
     h1 {
-      font-size: 2rem;
-      letter-spacing: 1px;
+      font-size: 1.9rem;
       background: linear-gradient(135deg, #ef4444, #b91c1c);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      font-weight: 800;
-      margin-top: 0.5rem;
+      letter-spacing: -0.5px;
+      font-weight: 700;
+      margin-top: 0.25rem;
     }
-    .tagline {
-      color: #9ca3af;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      border-top: 1px solid rgba(220,38,38,0.6);
+    .badge {
       display: inline-block;
-      padding-top: 6px;
-      letter-spacing: 1px;
+      background: #ef444420;
+      border: 1px solid #ef444460;
+      border-radius: 40px;
+      padding: 0.2rem 1rem;
+      font-size: 0.7rem;
+      color: #f87171;
+      margin-top: 0.5rem;
     }
 
     .page {
-      transition: opacity 0.2s ease;
+      transition: opacity 0.2s;
     }
     .hidden-page {
       display: none;
     }
 
-    /* inputs */
     .input-group {
-      margin-bottom: 1.3rem;
-      text-align: left;
+      margin-bottom: 1.2rem;
     }
     label {
       display: block;
-      margin-bottom: 0.4rem;
-      color: #f87171;
+      font-size: 0.8rem;
       font-weight: 500;
+      color: #cbd5e1;
+      margin-bottom: 0.3rem;
     }
     input {
       width: 100%;
-      padding: 0.85rem 1rem;
-      background: #111827;
-      border: 1px solid #7f1d1d;
-      border-radius: 1.5rem;
-      color: #f3f4f6;
-      font-size: 1rem;
-      outline: none;
+      background: #0f111e;
+      border: 1px solid #2d2f42;
+      border-radius: 1rem;
+      padding: 0.8rem 1rem;
+      color: #f1f5f9;
+      font-size: 0.9rem;
       transition: 0.2s;
     }
     input:focus {
+      outline: none;
       border-color: #ef4444;
-      box-shadow: 0 0 10px rgba(239,68,68,0.3);
+      box-shadow: 0 0 0 3px #ef444430;
     }
-
-    /* RED BUTTONS */
-    .btn {
-      width: 100%;
+    button {
       background: linear-gradient(95deg, #dc2626, #b91c1c);
       border: none;
-      padding: 0.85rem;
-      font-size: 1.1rem;
-      font-weight: bold;
-      border-radius: 3rem;
-      color: #ffffff;
+      padding: 0.8rem;
+      width: 100%;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: white;
       cursor: pointer;
-      transition: transform 0.1s, box-shadow 0.2s;
-      margin-top: 0.6rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      transition: transform 0.1s, opacity 0.2s;
+      margin-top: 0.8rem;
     }
-    .btn:active {
-      transform: scale(0.97);
-    }
+    button:active { transform: scale(0.97); }
     .btn-outline {
       background: transparent;
-      border: 2px solid #ef4444;
+      border: 1.5px solid #ef4444;
       color: #fca5a5;
       box-shadow: none;
     }
-    .btn-outline:hover {
-      background: #dc262620;
-    }
-    .payment-option {
-      background: #0f172a80;
+    .payment-method {
+      background: #0e1120;
       border-radius: 1.2rem;
-      margin: 1.2rem 0;
-      padding: 1rem;
-      border: 1px solid #b91c1c;
-      transition: 0.2s;
-    }
-    .payment-option h3 {
-      color: #f87171;
-      margin-bottom: 0.4rem;
-    }
-    .crypto-demo {
-      background: #0b0f19;
-      padding: 0.6rem;
-      border-radius: 1rem;
-      font-size: 0.8rem;
-      word-break: break-all;
-      margin-top: 8px;
-      color: #9ca3af;
-      border-left: 3px solid #ef4444;
-    }
-    .loader {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: #f87171;
-      animation: spin 0.8s linear infinite;
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .creds-box {
-      background: #0b0f19cc;
-      border-radius: 1rem;
       padding: 1rem;
       margin: 1rem 0;
-      border-left: 5px solid #dc2626;
+      border-left: 4px solid #dc2626;
+    }
+    .crypto-demo {
+      background: #0a0c16;
+      padding: 0.7rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
       font-family: monospace;
+      margin-top: 10px;
+      word-break: break-all;
     }
     .alert {
       background: #2c1a1a;
-      color: #fca5a5;
-      border-radius: 2rem;
+      border-radius: 1rem;
       padding: 0.7rem;
       text-align: center;
-      font-size: 0.9rem;
+      color: #fca5a5;
+      font-size: 0.85rem;
     }
-    footer {
-      font-size: 0.7rem;
-      text-align: center;
-      margin-top: 2rem;
-      color: #6b7280;
+    .telegram-btn {
+      background: #0088cc;
+      background: linear-gradient(95deg, #0088cc, #005f8c);
+      margin-top: 0.5rem;
     }
 
-    /* DASHBOARD – moving plane (red) */
-    .simulation-area {
+    /* dashboard radar */
+    .radar-section {
       background: #03050c;
       border-radius: 1.5rem;
       padding: 1rem;
       margin: 1rem 0;
-      border: 1px solid #b91c1c;
-      position: relative;
-      overflow: hidden;
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+      border: 1px solid #ef444430;
     }
     .radar {
       position: relative;
-      height: 220px;
-      background: radial-gradient(circle at 20% 30%, #1a0c0c, #050208);
+      height: 200px;
+      background: radial-gradient(circle at 30% 40%, #0a0a14, #010101);
       border-radius: 1rem;
       overflow: hidden;
-      border: 1px solid #ef444455;
     }
     .moving-plane {
       position: absolute;
-      font-size: 2.8rem;
-      filter: drop-shadow(0 0 6px #ef4444);
-      animation: flyAround 8s infinite linear;
+      font-size: 2.2rem;
+      filter: drop-shadow(0 0 5px #ef4444);
+      animation: flyPath 9s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
       pointer-events: none;
-      z-index: 5;
+      z-index: 2;
     }
-    @keyframes flyAround {
-      0% { top: 10%; left: 5%; transform: rotate(10deg); }
-      20% { top: 40%; left: 70%; transform: rotate(25deg); }
-      40% { top: 75%; left: 85%; transform: rotate(60deg); }
-      60% { top: 60%; left: 20%; transform: rotate(-15deg); }
-      80% { top: 20%; left: 50%; transform: rotate(5deg); }
-      100% { top: 10%; left: 5%; transform: rotate(10deg); }
+    @keyframes flyPath {
+      0% { top: 10%; left: 5%; transform: rotate(5deg); }
+      25% { top: 60%; left: 80%; transform: rotate(35deg); }
+      50% { top: 80%; left: 40%; transform: rotate(-10deg); }
+      75% { top: 30%; left: 15%; transform: rotate(15deg); }
+      100% { top: 10%; left: 5%; transform: rotate(5deg); }
     }
     .radar-sweep {
       position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
-      background: conic-gradient(from 0deg, transparent, #ef444430, transparent);
-      animation: sweep 4s infinite linear;
-      border-radius: 1rem;
+      background: conic-gradient(from 0deg, transparent, #ef444420, transparent);
+      animation: sweep 4s linear infinite;
       pointer-events: none;
-    }
-    @keyframes sweep {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .predictor-stats {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 1rem;
-      gap: 12px;
-    }
-    .stat-card {
-      background: #0f111e;
-      padding: 0.5rem;
       border-radius: 1rem;
+    }
+    @keyframes sweep { to { transform: rotate(360deg); } }
+
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 1rem;
+    }
+    .stat-box {
+      background: #0f1220;
+      border-radius: 1rem;
+      padding: 0.6rem;
       text-align: center;
       flex: 1;
       border-bottom: 2px solid #dc2626;
     }
-    .stat-card span:first-child {
+    .stat-label {
       font-size: 0.7rem;
-      color: #9ca3af;
+      text-transform: uppercase;
+      color: #8b8fa3;
     }
-    .stat-card .value {
-      font-size: 1.4rem;
-      font-weight: bold;
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
       color: #f87171;
+    }
+    .multiplier-preview {
+      background: #0a0c16;
+      border-radius: 1rem;
+      padding: 0.8rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    .multiplier-value {
+      font-size: 2rem;
+      font-weight: 800;
+      font-family: monospace;
+      color: #ffb347;
+    }
+    footer {
+      font-size: 0.65rem;
+      text-align: center;
+      color: #4b5563;
+      margin-top: 1.8rem;
     }
   </style>
 </head>
 <body>
-<div class="container" id="appRoot">
-  <!-- ================= LANDING PAGE ================= -->
-  <div id="landingPage" class="page">
-    <div class="logo-area">
-      <!-- RED PLANE LOGO -->
-      <div class="logo-img">✈️</div>
-      <h1>AVIATOR PREDICTOR 4.0</h1>
-      <div class="tagline">🔴 RED SQUADRON • CRASH RADAR</div>
-    </div>
-    <div style="text-align: center; margin-bottom: 1.8rem;">
-      <p style="color:#cbd5e1;">Elite flight predictor with real‑time plane simulation.<br> 
-      <span style="font-size:0.75rem;">Login to access the cockpit</span></p>
-    </div>
-
-    <div class="input-group">
-      <label>🪪 Username</label>
-      <input type="text" id="loginUsername" placeholder="Username from payment">
-    </div>
-    <div class="input-group">
-      <label>🔒 Password</label>
-      <input type="password" id="loginPassword" placeholder="Password">
-    </div>
-    <button class="btn" id="doLoginBtn">✈️ ENTER COCKPIT</button>
-    <div style="text-align: center; margin-top: 1.5rem;">
-      <button class="btn-outline btn" id="getLoginsBtn" style="width: auto; padding: 0.6rem 1.8rem;">🎫 GET LOGINS →</button>
-    </div>
-    <div id="landingMessage" class="alert" style="margin-top: 1rem; display: none;"></div>
-    <footer>© 2026 Aviator Predictor 4.0 | Red edition</footer>
-  </div>
-
-  <!-- ================= PAYMENT PAGE ================= -->
-  <div id="paymentPage" class="page hidden-page">
-    <div class="logo-area">
-      <h2 style="font-size: 1.7rem;">💳 UNLOCK FLIGHT ACCESS</h2>
-      <p style="color:#f87171;">Choose your payment channel</p>
-    </div>
-
-    <!-- Binance Crypto -->
-    <div class="payment-option">
-      <h3>₿ Binance Pay / Crypto</h3>
-      <p>Send USDT, BTC or BNB to the following Binance ID:</p>
-      <div class="crypto-demo">
-        <strong>Binance ID:</strong> <span id="binanceIdDisplay">1234567890</span> (your Binance email/ID)<br>
-        <span style="font-size:12px;">After transfer, click "I paid (simulated)"</span>
+<div class="app-card">
+  <div class="content">
+    <!-- LANDING PAGE (LOGIN) -->
+    <div id="landingPage" class="page">
+      <div class="header">
+        <div class="plane-logo">✈️</div>
+        <h1>AVIATOR PREDICTOR 4.0</h1>
+        <div class="badge">PROFESSIONAL FLIGHT ANALYZER</div>
       </div>
-      <button class="btn" id="cryptoPaidMockBtn" style="background: #991b1b;">🔄 SIMULATE PAYMENT (Binance)</button>
+      <div class="input-group">
+        <label>Username</label>
+        <input type="text" id="loginUser" placeholder="Enter username">
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="loginPass" placeholder="Password">
+      </div>
+      <button id="doLoginBtn">✈️ ACCESS DASHBOARD</button>
+      <div style="text-align: center; margin-top: 1rem;">
+        <button id="getLoginsBtn" class="btn-outline" style="width: auto; padding: 0.5rem 1.5rem;">🔑 GET LOGINS</button>
+      </div>
+      <div id="landingMsg" class="alert" style="margin-top: 1rem; display: none;"></div>
+      <footer>© 2026 · Real‑time crash prediction · AI enhanced</footer>
     </div>
 
-    <!-- M‑Pesa Nestlink -->
-    <div class="payment-option">
-      <h3>📱 M‑Pesa (Nestlink)</h3>
-      <p>Pay via Lipa Na M‑Pesa – instant activation</p>
-      <button class="btn" id="mpesaNestlinkBtn">💸 Pay with M‑Pesa</button>
-      <div class="crypto-demo">
-        ⚡ <strong>Your Nestlink tokens</strong> (replace with real ones):<br>
-        <span id="nestlinkPlaceholder">payment_link_token_here / merchant_secret</span>
+    <!-- PAYMENT PAGE (no simulation, only payment details + Telegram) -->
+    <div id="paymentPage" class="page hidden-page">
+      <div class="header">
+        <h2 style="font-size:1.5rem;">💳 UNLOCK PREDICTOR</h2>
+        <div class="badge">payment required</div>
       </div>
+      <div class="payment-method">
+        <strong>₿ Binance / Crypto</strong>
+        <div class="crypto-demo">
+          Binance ID: <span id="binanceIdLabel">your_binance_id@example.com</span><br>
+          <small>Send exact amount (contact Telegram for price)</small>
+        </div>
+      </div>
+      <div class="payment-method">
+        <strong>📱 M‑Pesa (Nestlink)</strong>
+        <div class="crypto-demo">
+          🔗 Nestlink payment link:<br>
+          <span id="nestlinkTokenDemo">https://sandbox.nestlink.com/pay/your_merchant_id</span><br>
+          <small>Click below to pay via M‑Pesa</small>
+        </div>
+        <button id="mpesaBtn">💸 Pay with M‑Pesa (opens Nestlink)</button>
+      </div>
+
+      <div class="alert" style="background:#1e2a3a; color:#fcd34d; margin-top:1rem;">
+        ⚠️ After completing payment, <strong>contact us on Telegram</strong> with your transaction ID to receive your login credentials.
+      </div>
+      <button id="telegramContactBtn" class="telegram-btn">📱 CONTACT TELEGRAM FOR LOGINS</button>
+      <button id="backToLanding" class="btn-outline" style="margin-top: 0.5rem;">← Back</button>
+      <footer>Credentials: pilot254 / aviator254 (sent after payment verification)</footer>
     </div>
 
-    <div id="paymentStatus" class="alert" style="margin-top: 1rem; display: none;"></div>
-    <button class="btn-outline btn" id="backToLandingFromPay" style="margin-top: 1rem;">← Back</button>
-    <footer>All payments are encrypted • 24/7 automated delivery</footer>
-  </div>
-
-  <!-- ================= DASHBOARD with MOVING RED PLANE ================= -->
-  <div id="dashboardPage" class="page hidden-page">
-    <div class="logo-area">
-      <h2>🛰️ AVIATOR PREDICTOR 4.0</h2>
-      <div class="tagline">live radar • red flight model</div>
-    </div>
-    <div class="simulation-area">
-      <div class="radar">
-        <div class="radar-sweep"></div>
-        <div class="moving-plane">✈️</div>
+    <!-- DASHBOARD (predictor with moving plane) -->
+    <div id="dashboardPage" class="page hidden-page">
+      <div class="header">
+        <div class="plane-logo" style="font-size:2.5rem;">📡</div>
+        <h2 style="font-size:1.4rem;">LIVE PREDICTOR</h2>
+        <div class="badge">real‑time analysis</div>
       </div>
-      <div class="predictor-stats">
-        <div class="stat-card"><span>Next multiplier</span><div class="value">2.67x</div></div>
-        <div class="stat-card"><span>Confidence</span><div class="value">87%</div></div>
-        <div class="stat-card"><span>Crash risk</span><div class="value" style="color:#ef4444;">LOW</div></div>
+      <div class="radar-section">
+        <div class="radar">
+          <div class="radar-sweep"></div>
+          <div class="moving-plane">✈️</div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-box"><div class="stat-label">Next crash</div><div class="stat-value" id="predMultiplier">2.34x</div></div>
+          <div class="stat-box"><div class="stat-label">Confidence</div><div class="stat-value" id="confidenceVal">88%</div></div>
+          <div class="stat-box"><div class="stat-label">Risk level</div><div class="stat-value" style="color:#ef4444;">MODERATE</div></div>
+        </div>
       </div>
+      <div class="multiplier-preview">
+        📈 <strong>Predicted multiplier range</strong><br>
+        <span class="multiplier-value" id="rangePreview">1.85x – 3.42x</span>
+      </div>
+      <div id="dashboardCreds" class="alert" style="background:#0f1220; color:#9ca3af;">✈️ Logged in as pilot254</div>
+      <button id="logoutBtn" class="btn-outline">🚪 Exit cockpit</button>
+      <footer>AI simulation based on historical provable fairness</footer>
     </div>
-    <div class="creds-box" id="displayCurrentCreds"></div>
-    <button class="btn-outline btn" id="logoutBtn">🚪 EXIT FLIGHT DECK</button>
-    <footer style="margin-top: 1rem;">Real‑time predictions based on historical patterns</footer>
   </div>
 </div>
 
 <script>
-  // ========== CONFIGURATION ==========
-  // Replace with your actual Nestlink data
-  const NESTLINK_CONFIG = {
-    paymentUrl: "https://sandbox.nestlink.com/pay/your_merchant_id",
-    apiToken: "your_nestlink_token_here",
-    paybill: "123456"
-  };
-  // YOUR BINANCE ID (shown on payment page)
-  const BINANCE_ID = "your_binance_id@example.com";  // <-- CHANGE TO YOUR REAL BINANCE ID
+  // ----------------- HARDCODED CREDENTIALS -----------------
+  const VALID_USERNAME = "pilot254";
+  const VALID_PASSWORD = "aviator254";
 
-  const STORAGE_KEY = "aviator_creds";
+  // Payment & Telegram config
+  const BINANCE_ID = "your_binance_id@example.com";   // <-- CHANGE TO YOUR REAL BINANCE ID
+  const NESTLINK_URL = "https://sandbox.nestlink.com/pay/your_merchant_id"; // <-- CHANGE TO YOUR NESTLINK LINK
+  const TELEGRAM_LINK = "https://t.me/YourTelegramUsername"; // <-- CHANGE TO YOUR TELEGRAM USERNAME
 
   function showPage(pageId) {
-    document.getElementById('landingPage').classList.add('hidden-page');
-    document.getElementById('paymentPage').classList.add('hidden-page');
-    document.getElementById('dashboardPage').classList.add('hidden-page');
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden-page'));
     document.getElementById(pageId).classList.remove('hidden-page');
   }
 
-  function generateAndStoreCredentials() {
-    const randomUser = "RED_PILOT_" + Math.random().toString(36).substring(2, 10).toUpperCase();
-    const randomPass = Math.random().toString(36).substring(2, 12) + "@Avi4";
-    const creds = { username: randomUser, password: randomPass };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(creds));
-    return creds;
-  }
-
-  function handlePaymentSuccess() {
-    let creds = localStorage.getItem(STORAGE_KEY);
-    if (!creds) {
-      creds = generateAndStoreCredentials();
-    } else {
-      creds = JSON.parse(creds);
-    }
-    const msgDiv = document.getElementById('paymentStatus');
-    msgDiv.style.display = 'block';
-    msgDiv.innerHTML = `✅ PAYMENT CONFIRMED! <br><strong>Your auto‑generated login:</strong><br>
-                        👤 ${creds.username}<br> 🔑 ${creds.password}<br>
-                        <span style="font-size:0.8rem;">(copy credentials, then login from main page)</span>`;
-    msgDiv.style.background = "#2c1a1a";
-    msgDiv.style.color = "#fca5a5";
-    
-    document.getElementById('loginUsername').value = creds.username;
-    document.getElementById('loginPassword').value = creds.password;
-    
-    setTimeout(() => {
-      if(confirm("Credentials saved. Go to login page now?")) {
-        showPage('landingPage');
-        document.getElementById('landingMessage').innerHTML = "✅ New login generated! Use the prefilled fields.";
-        document.getElementById('landingMessage').style.display = 'block';
-      }
-    }, 1500);
-  }
-
-  function redirectToNestlink() {
-    const nestlinkFullUrl = `${NESTLINK_CONFIG.paymentUrl}?token=${NESTLINK_CONFIG.apiToken}&amount=500&ref=AVIATOR_${Date.now()}`;
-    window.open(nestlinkFullUrl, '_blank');
-    const statusDiv = document.getElementById('paymentStatus');
-    statusDiv.style.display = 'block';
-    statusDiv.innerHTML = `🔄 Redirected to Nestlink. Complete payment then <strong>click below button</strong> to confirm.`;
-    let confirmBtn = document.getElementById('manualConfirmMpesa');
-    if(!confirmBtn) {
-      confirmBtn = document.createElement('button');
-      confirmBtn.id = 'manualConfirmMpesa';
-      confirmBtn.innerText = '✅ I HAVE COMPLETED M-PESA PAYMENT';
-      confirmBtn.className = 'btn';
-      confirmBtn.style.marginTop = '12px';
-      confirmBtn.style.backgroundColor = '#b91c1c';
-      confirmBtn.onclick = () => {
-        handlePaymentSuccess();
-        confirmBtn.remove();
-      };
-      statusDiv.appendChild(confirmBtn);
-    }
-  }
-
-  // Event listeners
-  document.getElementById('getLoginsBtn').addEventListener('click', () => {
-    showPage('paymentPage');
-    document.getElementById('paymentStatus').style.display = 'none';
-    document.getElementById('binanceIdDisplay').innerText = BINANCE_ID;
-  });
-
-  document.getElementById('backToLandingFromPay').addEventListener('click', () => {
-    showPage('landingPage');
-    document.getElementById('paymentStatus').style.display = 'none';
-  });
-
-  document.getElementById('cryptoPaidMockBtn').addEventListener('click', () => {
-    handlePaymentSuccess();
-  });
-
-  document.getElementById('mpesaNestlinkBtn').addEventListener('click', () => {
-    redirectToNestlink();
-  });
-
+  // Login check
   document.getElementById('doLoginBtn').addEventListener('click', () => {
-    const enteredUser = document.getElementById('loginUsername').value.trim();
-    const enteredPass = document.getElementById('loginPassword').value.trim();
-    const storedRaw = localStorage.getItem(STORAGE_KEY);
-    if(!storedRaw) {
-      document.getElementById('landingMessage').innerHTML = "❌ No credentials found. Please get logins via payment first.";
-      document.getElementById('landingMessage').style.display = 'block';
-      return;
-    }
-    const stored = JSON.parse(storedRaw);
-    if(enteredUser === stored.username && enteredPass === stored.password) {
-      document.getElementById('displayCurrentCreds').innerHTML = `✈️ Logged as: <strong>${stored.username}</strong> | Plan: Red Squadron Pro ⚡`;
+    const user = document.getElementById('loginUser').value.trim();
+    const pass = document.getElementById('loginPass').value.trim();
+    if (user === VALID_USERNAME && pass === VALID_PASSWORD) {
+      // Set dashboard with static predictions (or you can add randomness)
+      const randomMulti = (Math.random() * 3 + 1.2).toFixed(2);
+      const confidence = Math.floor(Math.random() * 20 + 75);
+      const low = (randomMulti * 0.7).toFixed(2);
+      const high = (randomMulti * 1.4).toFixed(2);
+      document.getElementById('predMultiplier').innerText = `${randomMulti}x`;
+      document.getElementById('confidenceVal').innerText = `${confidence}%`;
+      document.getElementById('rangePreview').innerHTML = `${low}x – ${high}x`;
       showPage('dashboardPage');
     } else {
-      document.getElementById('landingMessage').innerHTML = "⚠️ Invalid username or password. Have you completed payment?";
-      document.getElementById('landingMessage').style.display = 'block';
+      const msgDiv = document.getElementById('landingMsg');
+      msgDiv.innerHTML = "❌ Invalid username or password. Get logins via payment & Telegram.";
+      msgDiv.style.display = 'block';
+      setTimeout(() => msgDiv.style.display = 'none', 4000);
     }
   });
 
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    showPage('landingPage');
-    document.getElementById('loginUsername').value = '';
-    document.getElementById('loginPassword').value = '';
-    document.getElementById('landingMessage').innerHTML = "You left the flight deck. Log in again anytime.";
-    document.getElementById('landingMessage').style.display = 'block';
+  // Get Logins button -> payment page
+  document.getElementById('getLoginsBtn').addEventListener('click', () => {
+    showPage('paymentPage');
+    // fill dynamic payment info
+    document.getElementById('binanceIdLabel').innerText = BINANCE_ID;
+    document.getElementById('nestlinkTokenDemo').innerHTML = NESTLINK_URL;
   });
 
-  // set Binance ID display
-  document.getElementById('binanceIdDisplay').innerText = BINANCE_ID;
-  document.getElementById('nestlinkPlaceholder').innerText = `${NESTLINK_CONFIG.paymentUrl} | token: ${NESTLINK_CONFIG.apiToken}`;
+  // M-Pesa button opens Nestlink in new tab
+  document.getElementById('mpesaBtn').addEventListener('click', () => {
+    window.open(NESTLINK_URL, '_blank');
+  });
 
-  // preload any stored credentials
-  const existing = localStorage.getItem(STORAGE_KEY);
-  if(existing) {
-    const creds = JSON.parse(existing);
-    document.getElementById('loginUsername').value = creds.username;
-    document.getElementById('loginPassword').value = creds.password;
-  }
+  // Telegram contact button
+  document.getElementById('telegramContactBtn').addEventListener('click', () => {
+    window.open(TELEGRAM_LINK, '_blank');
+  });
+
+  // Back to landing
+  document.getElementById('backToLanding').addEventListener('click', () => {
+    showPage('landingPage');
+  });
+
+  // Logout
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    showPage('landingPage');
+    document.getElementById('loginUser').value = '';
+    document.getElementById('loginPass').value = '';
+  });
+
+  // Prefill login fields for demo convenience (optional)
+  document.getElementById('loginUser').value = "";
+  document.getElementById('loginPass').value = "";
 </script>
 </body>
 </html>
