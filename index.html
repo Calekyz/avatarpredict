@@ -132,6 +132,14 @@
       margin: 1rem 0;
       border-left: 4px solid #dc2626;
     }
+    /* Make all text inside payment-method white/light */
+    .payment-method strong,
+    .payment-method .crypto-demo,
+    .payment-method .crypto-demo span,
+    .payment-method small,
+    .payment-method p {
+      color: #f1f5f9 !important;
+    }
     .crypto-demo {
       background: #0a0c16;
       padding: 0.7rem;
@@ -140,6 +148,7 @@
       font-family: monospace;
       margin-top: 10px;
       word-break: break-all;
+      color: #e2e8f0;
     }
     .alert {
       background: #2c1a1a;
@@ -225,6 +234,7 @@
       padding: 0.8rem;
       text-align: center;
       margin: 1rem 0;
+      color: #f1f5f9;
     }
     .multiplier-value {
       font-size: 2rem;
@@ -237,6 +247,13 @@
       text-align: center;
       color: #4b5563;
       margin-top: 1.8rem;
+    }
+    /* additional visibility for payment page headings */
+    .payment-method h3, .payment-method strong {
+      color: #facc15 !important;
+    }
+    .payment-method .crypto-demo {
+      color: #e2e8f0 !important;
     }
   </style>
 </head>
@@ -266,25 +283,25 @@
       <footer>© 2026 · Real‑time crash prediction · AI enhanced</footer>
     </div>
 
-    <!-- PAYMENT PAGE (no simulation, only payment details + Telegram) -->
+    <!-- PAYMENT PAGE (all text now white/visible) -->
     <div id="paymentPage" class="page hidden-page">
       <div class="header">
-        <h2 style="font-size:1.5rem;">💳 UNLOCK PREDICTOR</h2>
+        <h2 style="font-size:1.5rem; color:white;">💳 UNLOCK PREDICTOR</h2>
         <div class="badge">payment required</div>
       </div>
       <div class="payment-method">
-        <strong>₿ Binance / Crypto</strong>
+        <strong style="color:#facc15;">₿ Binance / Crypto</strong>
         <div class="crypto-demo">
-          Binance ID: <span id="binanceIdLabel">your_binance_id@example.com</span><br>
-          <small>Send exact amount (contact Telegram for price)</small>
+          Binance ID: <span id="binanceIdLabel" style="color:#f1f5f9;">your_binance_id@example.com</span><br>
+          <small style="color:#cbd5e1;">Send exact amount (contact Telegram for price)</small>
         </div>
       </div>
       <div class="payment-method">
-        <strong>📱 M‑Pesa (Nestlink)</strong>
+        <strong style="color:#facc15;">📱 M‑Pesa (Nestlink)</strong>
         <div class="crypto-demo">
           🔗 Nestlink payment link:<br>
-          <span id="nestlinkTokenDemo">https://sandbox.nestlink.com/pay/your_merchant_id</span><br>
-          <small>Click below to pay via M‑Pesa</small>
+          <span id="nestlinkTokenDemo" style="color:#f1f5f9;">https://sandbox.nestlink.com/pay/your_merchant_id</span><br>
+          <small style="color:#cbd5e1;">Click below to pay via M‑Pesa</small>
         </div>
         <button id="mpesaBtn">💸 Pay with M‑Pesa (opens Nestlink)</button>
       </div>
@@ -294,7 +311,7 @@
       </div>
       <button id="telegramContactBtn" class="telegram-btn">📱 CONTACT TELEGRAM FOR LOGINS</button>
       <button id="backToLanding" class="btn-outline" style="margin-top: 0.5rem;">← Back</button>
-      <footer>Credentials: pilot254 / aviator254 (sent after payment verification)</footer>
+      <footer style="color:#6b7280;">Credentials: pilot254 / aviator254 (sent after payment verification)</footer>
     </div>
 
     <!-- DASHBOARD (predictor with moving plane) -->
@@ -331,10 +348,10 @@
   const VALID_USERNAME = "pilot254";
   const VALID_PASSWORD = "aviator254";
 
-  // Payment & Telegram config
-  const BINANCE_ID = "your_binance_id@example.com";   // <-- CHANGE TO YOUR REAL BINANCE ID
-  const NESTLINK_URL = "https://sandbox.nestlink.com/pay/your_merchant_id"; // <-- CHANGE TO YOUR NESTLINK LINK
-  const TELEGRAM_LINK = "https://t.me/YourTelegramUsername"; // <-- CHANGE TO YOUR TELEGRAM USERNAME
+  // Payment & Telegram config (CHANGE THESE)
+  const BINANCE_ID = "your_binance_id@example.com";   // <-- REPLACE WITH YOUR REAL BINANCE ID
+  const NESTLINK_URL = "https://sandbox.nestlink.com/pay/your_merchant_id"; // <-- REPLACE WITH YOUR NESTLINK LINK
+  const TELEGRAM_LINK = "https://t.me/YourTelegramUsername"; // <-- REPLACE WITH YOUR TELEGRAM USERNAME
 
   function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden-page'));
@@ -346,7 +363,7 @@
     const user = document.getElementById('loginUser').value.trim();
     const pass = document.getElementById('loginPass').value.trim();
     if (user === VALID_USERNAME && pass === VALID_PASSWORD) {
-      // Set dashboard with static predictions (or you can add randomness)
+      // Randomize predictor stats for realism
       const randomMulti = (Math.random() * 3 + 1.2).toFixed(2);
       const confidence = Math.floor(Math.random() * 20 + 75);
       const low = (randomMulti * 0.7).toFixed(2);
@@ -366,7 +383,6 @@
   // Get Logins button -> payment page
   document.getElementById('getLoginsBtn').addEventListener('click', () => {
     showPage('paymentPage');
-    // fill dynamic payment info
     document.getElementById('binanceIdLabel').innerText = BINANCE_ID;
     document.getElementById('nestlinkTokenDemo').innerHTML = NESTLINK_URL;
   });
@@ -392,10 +408,6 @@
     document.getElementById('loginUser').value = '';
     document.getElementById('loginPass').value = '';
   });
-
-  // Prefill login fields for demo convenience (optional)
-  document.getElementById('loginUser').value = "";
-  document.getElementById('loginPass').value = "";
 </script>
 </body>
 </html>
