@@ -2,412 +2,646 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Aviator Predictor 4.0 | Professional Flight Analyzer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>SKYSCRIBE • AVIATOR CRASH ANALYZER</title>
+  <!-- Font Awesome 6 & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
     }
 
     body {
       min-height: 100vh;
-      background: #0b0e17;
-      background-image: radial-gradient(circle at 25% 0%, #1a1f2e 0%, #06080f 100%);
+      background: radial-gradient(circle at 10% 20%, #0c0f1c, #03050b);
       display: flex;
-      justify-content: center;
       align-items: center;
-      padding: 2rem;
+      justify-content: center;
+      padding: 1.5rem;
     }
 
-    .app-card {
-      max-width: 650px;
+    /* main glass card */
+    .game-container {
+      max-width: 680px;
       width: 100%;
-      background: rgba(12, 16, 28, 0.92);
-      backdrop-filter: blur(16px);
-      border-radius: 2rem;
-      border: 1px solid rgba(239, 68, 68, 0.25);
-      box-shadow: 0 30px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(185, 28, 28, 0.3);
+      background: rgba(6, 8, 18, 0.85);
+      backdrop-filter: blur(14px);
+      border-radius: 2.5rem;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(220, 38, 38, 0.2);
       overflow: hidden;
+      transition: all 0.2s;
     }
 
-    .content {
-      padding: 2rem 1.8rem;
+    .inner-pad {
+      padding: 1.8rem 1.8rem 2rem;
     }
 
-    .header {
+    /* login / auth card */
+    .login-header {
       text-align: center;
-      margin-bottom: 1.8rem;
+      margin-bottom: 2rem;
     }
-    .plane-logo {
-      font-size: 3.8rem;
-      filter: drop-shadow(0 0 10px #ef4444);
+    .plane-icon {
+      font-size: 3.2rem;
+      filter: drop-shadow(0 0 8px #ef4444);
       display: inline-block;
-      animation: subtleFloat 3s ease-in-out infinite;
+      animation: floatSoft 3s ease infinite;
     }
-    @keyframes subtleFloat {
+    @keyframes floatSoft {
       0% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
+      50% { transform: translateY(-6px); }
       100% { transform: translateY(0px); }
     }
     h1 {
       font-size: 1.9rem;
-      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      background: linear-gradient(125deg, #ff6b6b, #b91c1c);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      font-weight: 800;
       letter-spacing: -0.5px;
-      font-weight: 700;
-      margin-top: 0.25rem;
+      margin-top: 0.3rem;
     }
-    .badge {
-      display: inline-block;
-      background: #ef444420;
+    .badge-predict {
+      background: rgba(239, 68, 68, 0.2);
       border: 1px solid #ef444460;
-      border-radius: 40px;
+      border-radius: 60px;
       padding: 0.2rem 1rem;
+      display: inline-block;
       font-size: 0.7rem;
+      font-weight: 600;
       color: #f87171;
-      margin-top: 0.5rem;
+      margin-top: 0.6rem;
     }
-
-    .page {
-      transition: opacity 0.2s;
-    }
-    .hidden-page {
-      display: none;
-    }
-
     .input-group {
       margin-bottom: 1.2rem;
     }
     label {
       display: block;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #cbd5e1;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #9ca3af;
       margin-bottom: 0.3rem;
+      letter-spacing: 0.3px;
     }
     input {
       width: 100%;
-      background: #0f111e;
-      border: 1px solid #2d2f42;
-      border-radius: 1rem;
+      background: #0f1222;
+      border: 1px solid #2a2e44;
+      border-radius: 1.2rem;
       padding: 0.8rem 1rem;
-      color: #f1f5f9;
+      color: #f0f3fa;
       font-size: 0.9rem;
       transition: 0.2s;
     }
     input:focus {
-      outline: none;
       border-color: #ef4444;
+      outline: none;
       box-shadow: 0 0 0 3px #ef444430;
     }
-    button {
-      background: linear-gradient(95deg, #dc2626, #b91c1c);
+    .btn-primary {
+      background: linear-gradient(95deg, #dc2626, #9b1c1c);
       border: none;
-      padding: 0.8rem;
       width: 100%;
+      padding: 0.85rem;
       border-radius: 2rem;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 1rem;
       color: white;
       cursor: pointer;
-      transition: transform 0.1s, opacity 0.2s;
-      margin-top: 0.8rem;
+      transition: transform 0.1s, filter 0.2s;
+      margin-top: 0.5rem;
     }
-    button:active { transform: scale(0.97); }
+    .btn-primary:active { transform: scale(0.97); }
     .btn-outline {
       background: transparent;
       border: 1.5px solid #ef4444;
       color: #fca5a5;
       box-shadow: none;
     }
-    .payment-method {
-      background: #0e1120;
-      border-radius: 1.2rem;
-      padding: 1rem;
-      margin: 1rem 0;
-      border-left: 4px solid #dc2626;
-    }
-    /* Make all text inside payment-method white/light */
-    .payment-method strong,
-    .payment-method .crypto-demo,
-    .payment-method .crypto-demo span,
-    .payment-method small,
-    .payment-method p {
-      color: #f1f5f9 !important;
-    }
-    .crypto-demo {
-      background: #0a0c16;
-      padding: 0.7rem;
-      border-radius: 1rem;
-      font-size: 0.8rem;
-      font-family: monospace;
-      margin-top: 10px;
-      word-break: break-all;
-      color: #e2e8f0;
-    }
-    .alert {
+    .alert-msg {
       background: #2c1a1a;
       border-radius: 1rem;
       padding: 0.7rem;
+      font-size: 0.8rem;
       text-align: center;
       color: #fca5a5;
-      font-size: 0.85rem;
+      margin-top: 1rem;
     }
-    .telegram-btn {
-      background: #0088cc;
-      background: linear-gradient(95deg, #0088cc, #005f8c);
-      margin-top: 0.5rem;
+    /* DASHBOARD STYLES */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
     }
-
-    /* dashboard radar */
-    .radar-section {
-      background: #03050c;
-      border-radius: 1.5rem;
-      padding: 1rem;
+    .crash-track {
+      background: #01010cee;
+      border-radius: 2rem;
+      padding: 0.4rem 1.2rem;
+      border-left: 4px solid #ef4444;
+    }
+    .multiplier-giant {
+      background: #0b0e19;
+      border-radius: 2rem;
+      text-align: center;
+      padding: 1.2rem 0.5rem;
+      margin: 1rem 0;
+      border: 1px solid #ef444440;
+    }
+    .multiplier-number {
+      font-size: 3.8rem;
+      font-weight: 800;
+      font-family: monospace;
+      letter-spacing: 2px;
+      color: #ffbe76;
+      text-shadow: 0 0 5px #ef4444;
+    }
+    .target-badge {
+      background: #1e1020;
+      padding: 0.3rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      display: inline-block;
+    }
+    .flight-canvas-area {
+      background: #03050b;
+      border-radius: 1.8rem;
+      padding: 0.8rem;
       margin: 1rem 0;
       border: 1px solid #ef444430;
     }
-    .radar {
-      position: relative;
-      height: 200px;
-      background: radial-gradient(circle at 30% 40%, #0a0a14, #010101);
-      border-radius: 1rem;
-      overflow: hidden;
-    }
-    .moving-plane {
-      position: absolute;
-      font-size: 2.2rem;
-      filter: drop-shadow(0 0 5px #ef4444);
-      animation: flyPath 9s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
-      pointer-events: none;
-      z-index: 2;
-    }
-    @keyframes flyPath {
-      0% { top: 10%; left: 5%; transform: rotate(5deg); }
-      25% { top: 60%; left: 80%; transform: rotate(35deg); }
-      50% { top: 80%; left: 40%; transform: rotate(-10deg); }
-      75% { top: 30%; left: 15%; transform: rotate(15deg); }
-      100% { top: 10%; left: 5%; transform: rotate(5deg); }
-    }
-    .radar-sweep {
-      position: absolute;
+    canvas {
       width: 100%;
-      height: 100%;
-      background: conic-gradient(from 0deg, transparent, #ef444420, transparent);
-      animation: sweep 4s linear infinite;
-      pointer-events: none;
-      border-radius: 1rem;
+      height: 130px;
+      background: #080b14;
+      border-radius: 1.2rem;
+      display: block;
     }
-    @keyframes sweep { to { transform: rotate(360deg); } }
-
-    .stats-row {
+    .stats-grid {
       display: flex;
       gap: 12px;
-      margin-top: 1rem;
+      margin: 1rem 0;
     }
-    .stat-box {
-      background: #0f1220;
-      border-radius: 1rem;
-      padding: 0.6rem;
-      text-align: center;
+    .stat-card {
+      background: #0e1120;
+      border-radius: 1.2rem;
+      padding: 0.7rem;
       flex: 1;
+      text-align: center;
       border-bottom: 2px solid #dc2626;
     }
     .stat-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       text-transform: uppercase;
       color: #8b8fa3;
     }
     .stat-value {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 700;
-      color: #f87171;
+      color: #f97316;
     }
-    .multiplier-preview {
-      background: #0a0c16;
-      border-radius: 1rem;
-      padding: 0.8rem;
-      text-align: center;
-      margin: 1rem 0;
-      color: #f1f5f9;
+    .history-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.7rem;
     }
-    .multiplier-value {
-      font-size: 2rem;
-      font-weight: 800;
-      font-family: monospace;
+    .history-chip {
+      background: #171c2c;
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: bold;
       color: #ffb347;
     }
+    .cashout-btn {
+      background: #2b3b2b;
+      background: linear-gradient(95deg, #2c5e2c, #1e3a1e);
+      margin-top: 0.3rem;
+    }
+    .next-sequence {
+      font-size: 0.8rem;
+      background: #00000055;
+      padding: 0.5rem;
+      border-radius: 1rem;
+      text-align: center;
+    }
     footer {
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       text-align: center;
       color: #4b5563;
-      margin-top: 1.8rem;
+      margin-top: 1.5rem;
     }
-    /* additional visibility for payment page headings */
-    .payment-method h3, .payment-method strong {
-      color: #facc15 !important;
+    .hidden-page {
+      display: none;
     }
-    .payment-method .crypto-demo {
-      color: #e2e8f0 !important;
+    i.fa, i.far, i.fas {
+      margin-right: 5px;
+    }
+    button {
+      cursor: pointer;
+    }
+    .crash-flash {
+      animation: crashFlash 0.5s ease-out;
+    }
+    @keyframes crashFlash {
+      0% { background-color: rgba(220, 38, 38, 0.5); text-shadow: 0 0 5px red; }
+      100% { background-color: transparent; }
     }
   </style>
 </head>
 <body>
-<div class="app-card">
-  <div class="content">
-    <!-- LANDING PAGE (LOGIN) -->
-    <div id="landingPage" class="page">
-      <div class="header">
-        <div class="plane-logo">✈️</div>
-        <h1>AVIATOR PREDICTOR 4.0</h1>
-        <div class="badge">PROFESSIONAL FLIGHT ANALYZER</div>
+<div class="game-container" id="appRoot">
+  <div class="inner-pad">
+    <!-- LOGIN PAGE -->
+    <div id="loginPage">
+      <div class="login-header">
+        <div class="plane-icon">✈️</div>
+        <h1>SKYSCRIBE • CRASH SEQUENCE</h1>
+        <div class="badge-predict">deterministic flight path</div>
       </div>
       <div class="input-group">
-        <label>Username</label>
-        <input type="text" id="loginUser" placeholder="Enter username">
+        <label><i class="fas fa-user-astronaut"></i> Callsign</label>
+        <input type="text" id="loginUsername" placeholder="aviator4" autocomplete="off">
       </div>
       <div class="input-group">
-        <label>Password</label>
-        <input type="password" id="loginPass" placeholder="Password">
+        <label><i class="fas fa-key"></i> Access code</label>
+        <input type="password" id="loginPassword" placeholder="••••••••">
       </div>
-      <button id="doLoginBtn">✈️ ACCESS DASHBOARD</button>
-      <div style="text-align: center; margin-top: 1rem;">
-        <button id="getLoginsBtn" class="btn-outline" style="width: auto; padding: 0.5rem 1.5rem;">🔑 GET LOGINS</button>
-      </div>
-      <div id="landingMsg" class="alert" style="margin-top: 1rem; display: none;"></div>
-      <footer>© 2026 · Real‑time crash prediction · AI enhanced</footer>
+      <button class="btn-primary" id="submitLoginBtn"><i class="fas fa-radar"></i> ENTER COCKPIT</button>
+      <div id="loginErrorMsg" class="alert-msg" style="display: none;"></div>
+      <footer>🔐 authorized personnel only — crash cycle: 2.0 → 3.0 → 1.5 → 10.0 → 200.0</footer>
     </div>
 
-    <!-- PAYMENT PAGE (all text now white/visible) -->
-    <div id="paymentPage" class="page hidden-page">
-      <div class="header">
-        <h2 style="font-size:1.5rem; color:white;">💳 UNLOCK PREDICTOR</h2>
-        <div class="badge">payment required</div>
-      </div>
-      <div class="payment-method">
-        <strong style="color:#facc15;">₿ Binance / Crypto</strong>
-        <div class="crypto-demo">
-          Binance ID: <span id="binanceIdLabel" style="color:#f1f5f9;">your_binance_id@example.com</span><br>
-          <small style="color:#cbd5e1;">Send exact amount (contact Telegram for price)</small>
-        </div>
-      </div>
-      <div class="payment-method">
-        <strong style="color:#facc15;">📱 M‑Pesa (Nestlink)</strong>
-        <div class="crypto-demo">
-          🔗 Nestlink payment link:<br>
-          <span id="nestlinkTokenDemo" style="color:#f1f5f9;">https://sandbox.nestlink.com/pay/your_merchant_id</span><br>
-          <small style="color:#cbd5e1;">Click below to pay via M‑Pesa</small>
-        </div>
-        <button id="mpesaBtn">💸 Pay with M‑Pesa (opens Nestlink)</button>
+    <!-- MAIN DASHBOARD (PREDICTOR & PLANE) -->
+    <div id="dashboardPage" class="hidden-page">
+      <div class="dashboard-header">
+        <div><i class="fas fa-chart-line" style="color:#f97316;"></i> <strong style="font-size:1rem;">CRASH ANALYZER</strong></div>
+        <div class="crash-track"><i class="fas fa-bullseye"></i> round <span id="roundIndex">1</span>/5</div>
+        <button id="logoutBtnDashboard" class="btn-outline" style="width: auto; padding: 0.3rem 1rem; font-size:0.7rem;"><i class="fas fa-sign-out-alt"></i> exit</button>
       </div>
 
-      <div class="alert" style="background:#1e2a3a; color:#fcd34d; margin-top:1rem;">
-        ⚠️ After completing payment, <strong>contact us on Telegram</strong> with your transaction ID to receive your login credentials.
+      <!-- target multiplier preview -->
+      <div class="multiplier-giant">
+        <div class="target-badge"><i class="fas fa-skull-crosswalk"></i> PREDICTED CRASH → <span id="targetCrashDisplay">2.00</span>x</div>
+        <div class="multiplier-number" id="currentMultiplierDisplay">1.00</div>
+        <div style="font-size:0.7rem; color:#aaa;"><i class="fas fa-plane"></i> live multiplier</div>
       </div>
-      <button id="telegramContactBtn" class="telegram-btn">📱 CONTACT TELEGRAM FOR LOGINS</button>
-      <button id="backToLanding" class="btn-outline" style="margin-top: 0.5rem;">← Back</button>
-      <footer style="color:#6b7280;">Credentials: pilot254 / aviator254 (sent after payment verification)</footer>
-    </div>
 
-    <!-- DASHBOARD (predictor with moving plane) -->
-    <div id="dashboardPage" class="page hidden-page">
-      <div class="header">
-        <div class="plane-logo" style="font-size:2.5rem;">📡</div>
-        <h2 style="font-size:1.4rem;">LIVE PREDICTOR</h2>
-        <div class="badge">real‑time analysis</div>
-      </div>
-      <div class="radar-section">
-        <div class="radar">
-          <div class="radar-sweep"></div>
-          <div class="moving-plane">✈️</div>
-        </div>
-        <div class="stats-row">
-          <div class="stat-box"><div class="stat-label">Next crash</div><div class="stat-value" id="predMultiplier">2.34x</div></div>
-          <div class="stat-box"><div class="stat-label">Confidence</div><div class="stat-value" id="confidenceVal">88%</div></div>
-          <div class="stat-box"><div class="stat-label">Risk level</div><div class="stat-value" style="color:#ef4444;">MODERATE</div></div>
+      <!-- animated flight canvas (plane progress) -->
+      <div class="flight-canvas-area">
+        <canvas id="flightCanvas" width="600" height="130" style="width:100%; height:130px;"></canvas>
+        <div style="display: flex; justify-content: space-between; margin-top: 5px; font-size:0.6rem; color:#5f6a8a;">
+          <span>🛫 takeoff</span>
+          <span>✈️ radar track</span>
+          <span>💥 crash zone</span>
         </div>
       </div>
-      <div class="multiplier-preview">
-        📈 <strong>Predicted multiplier range</strong><br>
-        <span class="multiplier-value" id="rangePreview">1.85x – 3.42x</span>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">current stage</div><div class="stat-value" id="flightStatusText">IN FLIGHT</div></div>
+        <div class="stat-card"><div class="stat-label">next crash point</div><div class="stat-value" id="nextCrashHint">3.00x</div></div>
+        <div class="stat-card"><div class="stat-label">sequence</div><div class="stat-value" id="sequenceProgress">2/5</div></div>
       </div>
-      <div id="dashboardCreds" class="alert" style="background:#0f1220; color:#9ca3af;">✈️ Logged in as pilot254</div>
-      <button id="logoutBtn" class="btn-outline">🚪 Exit cockpit</button>
-      <footer>AI simulation based on historical provable fairness</footer>
+
+      <!-- Cash out button (simulates win, no game interference) -->
+      <button id="cashoutSimBtn" class="btn-primary cashout-btn"><i class="fas fa-hand-holding-usd"></i> CASH OUT (simulate win)</button>
+      <div id="cashoutToast" style="font-size:0.7rem; text-align:center; margin-top:8px; color:#90EE90; height:22px;"></div>
+
+      <!-- crash history & upcoming cycle -->
+      <div style="background:#0b0e1a; border-radius:1.2rem; padding:0.8rem; margin-top:1rem;">
+        <div><i class="fas fa-history"></i> <strong>crash history</strong> (last rounds)</div>
+        <div id="crashHistoryContainer" class="history-list"><span class="history-chip">—</span></div>
+        <div class="next-sequence" style="margin-top: 10px;"><i class="fas fa-chart-simple"></i> deterministic cycle: <strong id="remainingCyclePreview">2 → 3 → 1.5 → 10 → 200</strong></div>
+      </div>
+      <footer>✈️ each round crashes exactly at predefined target • automatic reset after explosion</footer>
     </div>
   </div>
 </div>
 
 <script>
-  // ----------------- HARDCODED CREDENTIALS -----------------
-  const VALID_USERNAME = "pilot254";
-  const VALID_PASSWORD = "aviator254";
+  // ======================= AUTHENTICATION =======================
+  const VALID_USERNAME = "aviator4";
+  const VALID_PASSWORD = "42055578";
 
-  // Payment & Telegram config (CHANGE THESE)
-  const BINANCE_ID = "your_binance_id@example.com";   // <-- REPLACE WITH YOUR REAL BINANCE ID
-  const NESTLINK_URL = "https://sandbox.nestlink.com/pay/your_merchant_id"; // <-- REPLACE WITH YOUR NESTLINK LINK
-  const TELEGRAM_LINK = "https://t.me/YourTelegramUsername"; // <-- REPLACE WITH YOUR TELEGRAM USERNAME
+  // crash sequence exactly as requested: 2 , 3 , 1.5 , 10 , 200
+  const CRASH_SEQUENCE = [2, 3, 1.5, 10, 200];
+  let currentSequenceIndex = 0;          // points to next crash target (0..4)
+  let crashHistory = [];                 // stores last 5 crash values
+  let roundActive = false;
+  let currentTargetCrash = CRASH_SEQUENCE[0];
+  let currentMultiplier = 1.0;
+  let animationFrameId = null;
+  let roundTimeoutId = null;
+  let gameRunning = false;
+  let isCrashed = false;
 
-  function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden-page'));
-    document.getElementById(pageId).classList.remove('hidden-page');
+  // DOM elements
+  const loginPage = document.getElementById('loginPage');
+  const dashboardPage = document.getElementById('dashboardPage');
+  const loginError = document.getElementById('loginErrorMsg');
+  const loginUser = document.getElementById('loginUsername');
+  const loginPass = document.getElementById('loginPassword');
+  const submitBtn = document.getElementById('submitLoginBtn');
+  const logoutBtn = document.getElementById('logoutBtnDashboard');
+  const targetCrashSpan = document.getElementById('targetCrashDisplay');
+  const currentMultiplierSpan = document.getElementById('currentMultiplierDisplay');
+  const flightStatusSpan = document.getElementById('flightStatusText');
+  const nextCrashHintSpan = document.getElementById('nextCrashHint');
+  const sequenceProgressSpan = document.getElementById('sequenceProgress');
+  const crashHistoryContainer = document.getElementById('crashHistoryContainer');
+  const remainingCyclePreview = document.getElementById('remainingCyclePreview');
+  const roundIndexSpan = document.getElementById('roundIndex');
+  const cashoutBtn = document.getElementById('cashoutSimBtn');
+  const cashoutToast = document.getElementById('cashoutToast');
+
+  let canvas = document.getElementById('flightCanvas');
+  let ctx = canvas.getContext('2d');
+
+  // helper: update cycle preview text
+  function updateCyclePreview() {
+    let remainingArr = [];
+    for (let i = currentSequenceIndex; i < CRASH_SEQUENCE.length; i++) {
+      remainingArr.push(CRASH_SEQUENCE[i]);
+    }
+    if (remainingArr.length === 0) {
+      remainingCyclePreview.innerText = "2 → 3 → 1.5 → 10 → 200 (repeat)";
+    } else {
+      remainingCyclePreview.innerText = remainingArr.join(" → ") + (currentSequenceIndex !== 0 ? " → repeat" : "");
+    }
   }
 
-  // Login check
-  document.getElementById('doLoginBtn').addEventListener('click', () => {
-    const user = document.getElementById('loginUser').value.trim();
-    const pass = document.getElementById('loginPass').value.trim();
-    if (user === VALID_USERNAME && pass === VALID_PASSWORD) {
-      // Randomize predictor stats for realism
-      const randomMulti = (Math.random() * 3 + 1.2).toFixed(2);
-      const confidence = Math.floor(Math.random() * 20 + 75);
-      const low = (randomMulti * 0.7).toFixed(2);
-      const high = (randomMulti * 1.4).toFixed(2);
-      document.getElementById('predMultiplier').innerText = `${randomMulti}x`;
-      document.getElementById('confidenceVal').innerText = `${confidence}%`;
-      document.getElementById('rangePreview').innerHTML = `${low}x – ${high}x`;
-      showPage('dashboardPage');
+  // update history UI
+  function updateHistoryUI() {
+    if (!crashHistoryContainer) return;
+    if (crashHistory.length === 0) {
+      crashHistoryContainer.innerHTML = '<span class="history-chip">—</span>';
+      return;
+    }
+    let html = '';
+    crashHistory.slice().reverse().forEach(crashVal => {
+      let bgColor = crashVal >= 10 ? '#9b3412' : '#2d2f42';
+      html += `<span class="history-chip" style="background:${bgColor};">💥 ${crashVal.toFixed(2)}x</span>`;
+    });
+    crashHistoryContainer.innerHTML = html;
+  }
+
+  // add crash to history (max 6)
+  function pushToHistory(crashValue) {
+    crashHistory.unshift(crashValue);
+    if (crashHistory.length > 6) crashHistory.pop();
+    updateHistoryUI();
+  }
+
+  // stop any ongoing round
+  function stopRoundAndClear() {
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
+    if (roundTimeoutId) {
+      clearTimeout(roundTimeoutId);
+      roundTimeoutId = null;
+    }
+    roundActive = false;
+    isCrashed = false;
+  }
+
+  // draw plane on canvas based on progress (0 to 1) 1 = crash point
+  function drawFlightProgress(progress) {
+    if (!canvas || !ctx) return;
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    canvas.width = w;
+    canvas.height = h;
+    ctx.clearRect(0, 0, w, h);
+    // draw runway line
+    ctx.beginPath();
+    ctx.moveTo(20, h-25);
+    ctx.lineTo(w-20, h-25);
+    ctx.strokeStyle = "#ef444480";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    // dashed zone
+    ctx.setLineDash([6, 8]);
+    ctx.beginPath();
+    ctx.moveTo(w-60, h-25);
+    ctx.lineTo(w-20, h-25);
+    ctx.strokeStyle = "#ffaa33";
+    ctx.stroke();
+    ctx.setLineDash([]);
+    // draw plane (position)
+    let xPos = 20 + (progress * (w - 70));
+    if (progress >= 0.98) xPos = Math.min(xPos, w-40);
+    ctx.font = "28px 'Segoe UI'";
+    ctx.fillStyle = "#FFD966";
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = "#f97316";
+    ctx.fillText("✈️", xPos-10, h-32);
+    ctx.shadowBlur = 0;
+    // crash marker
+    ctx.fillStyle = "#dc2626";
+    ctx.font = "bold 12px monospace";
+    ctx.fillText("💥", w-34, h-28);
+    // gradient area
+    ctx.fillStyle = "#facc1566";
+    ctx.fillRect(w-50, h-35, 40, 12);
+    // label
+    ctx.fillStyle = "#aaa";
+    ctx.font = "9px monospace";
+    ctx.fillText("CRASH ZONE", w-60, h-38);
+  }
+
+  // update multiplier frame by frame
+  function updateRoundAnimation() {
+    if (!roundActive || isCrashed) return;
+    // calculate increment based on target to make duration visually smooth but fast enough for 200x
+    let remaining = currentTargetCrash - currentMultiplier;
+    if (remaining <= 0.001) {
+      // CRASH !!!
+      triggerCrash();
+      return;
+    }
+    // dynamic step: bigger step for huge targets, but controlled
+    let step = Math.max(0.012, remaining / 42);
+    if (currentTargetCrash > 50) step = Math.max(0.15, remaining / 38);   // fast climb for 200x
+    if (currentTargetCrash === 200) step = Math.max(0.28, remaining / 34);
+    currentMultiplier += step;
+    if (currentMultiplier >= currentTargetCrash) {
+      currentMultiplier = currentTargetCrash;
+      triggerCrash();
+      return;
+    }
+    // update UI and progress
+    currentMultiplierSpan.innerText = currentMultiplier.toFixed(2) + "x";
+    let progressRatio = currentMultiplier / currentTargetCrash;
+    if (progressRatio > 1) progressRatio = 1;
+    drawFlightProgress(progressRatio);
+    // continue animation
+    animationFrameId = requestAnimationFrame(updateRoundAnimation);
+  }
+
+  function triggerCrash() {
+    if (isCrashed || !roundActive) return;
+    isCrashed = true;
+    roundActive = false;
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    animationFrameId = null;
+    // flash & display crash
+    const multiplierDiv = document.querySelector('.multiplier-giant');
+    if (multiplierDiv) multiplierDiv.classList.add('crash-flash');
+    setTimeout(() => multiplierDiv?.classList.remove('crash-flash'), 500);
+    flightStatusSpan.innerHTML = "<i class='fas fa-bomb'></i> CRASHED!";
+    flightStatusSpan.style.color = "#ff7777";
+    // show final crash multiplier
+    currentMultiplierSpan.innerText = currentTargetCrash.toFixed(2) + "x 💥";
+    drawFlightProgress(1);
+    // push to history
+    pushToHistory(currentTargetCrash);
+    // schedule next round
+    roundTimeoutId = setTimeout(() => {
+      // move to next crash index
+      currentSequenceIndex = (currentSequenceIndex + 1) % CRASH_SEQUENCE.length;
+      startNewRound();
+    }, 2200);
+  }
+
+  function startNewRound() {
+    stopRoundAndClear();
+    // get new crash target
+    currentTargetCrash = CRASH_SEQUENCE[currentSequenceIndex];
+    currentMultiplier = 1.0;
+    isCrashed = false;
+    roundActive = true;
+    // update UI indicators
+    targetCrashSpan.innerText = currentTargetCrash.toFixed(2);
+    currentMultiplierSpan.innerText = "1.00";
+    flightStatusSpan.innerHTML = "<i class='fas fa-fighter-jet'></i> IN FLIGHT";
+    flightStatusSpan.style.color = "#6ee7b7";
+    // set next crash hint
+    let nextIdx = (currentSequenceIndex + 1) % CRASH_SEQUENCE.length;
+    nextCrashHintSpan.innerText = CRASH_SEQUENCE[nextIdx].toFixed(2) + "x";
+    sequenceProgressSpan.innerText = (currentSequenceIndex+1) + "/" + CRASH_SEQUENCE.length;
+    roundIndexSpan.innerText = (currentSequenceIndex+1);
+    // update cycle preview
+    updateCyclePreview();
+    drawFlightProgress(0);
+    // start animation
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    animationFrameId = requestAnimationFrame(updateRoundAnimation);
+  }
+
+  // reset full game (when login)
+  function initGameSession() {
+    currentSequenceIndex = 0;
+    crashHistory = [];
+    updateHistoryUI();
+    if (roundTimeoutId) clearTimeout(roundTimeoutId);
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    roundActive = false;
+    isCrashed = false;
+    currentMultiplier = 1.0;
+    currentTargetCrash = CRASH_SEQUENCE[0];
+    startNewRound();
+  }
+
+  // cashout simulation (does NOT affect core game, just message)
+  function simulateCashout() {
+    if (!roundActive || isCrashed) {
+      cashoutToast.innerText = "⚠️ Round already finished or crashed!";
+      setTimeout(() => cashoutToast.innerText = "", 1500);
+      return;
+    }
+    let winValue = currentMultiplier;
+    cashoutToast.innerText = `💰 You cashed out at ${winValue.toFixed(2)}x! (demo win)`;
+    setTimeout(() => cashoutToast.innerText = "", 2000);
+  }
+
+  // LOGIC: LOGIN & LOGOUT
+  function showLogin() {
+    loginPage.classList.remove('hidden-page');
+    dashboardPage.classList.add('hidden-page');
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    if (roundTimeoutId) clearTimeout(roundTimeoutId);
+    roundActive = false;
+  }
+
+  function showDashboard() {
+    loginPage.classList.add('hidden-page');
+    dashboardPage.classList.remove('hidden-page');
+    initGameSession();   // reset cycle, start round
+  }
+
+  function handleLogin() {
+    const username = loginUser.value.trim();
+    const password = loginPass.value.trim();
+    if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+      loginError.style.display = 'none';
+      showDashboard();
     } else {
-      const msgDiv = document.getElementById('landingMsg');
-      msgDiv.innerHTML = "❌ Invalid username or password. Get logins via payment & Telegram.";
-      msgDiv.style.display = 'block';
-      setTimeout(() => msgDiv.style.display = 'none', 4000);
+      loginError.innerHTML = '<i class="fas fa-skull"></i> Invalid credentials · Access denied. Use aviator4 / 42055578';
+      loginError.style.display = 'block';
+    }
+  }
+
+  function handleLogout() {
+    stopRoundAndClear();
+    showLogin();
+    loginUser.value = '';
+    loginPass.value = '';
+    loginError.style.display = 'none';
+  }
+
+  // resize canvas adaptation
+  function handleCanvasResize() {
+    if (!canvas || !ctx) return;
+    if (roundActive && !isCrashed) {
+      let progress = currentMultiplier / currentTargetCrash;
+      drawFlightProgress(progress > 1 ? 1 : progress);
+    } else if (isCrashed) {
+      drawFlightProgress(1);
+    } else {
+      drawFlightProgress(0);
+    }
+  }
+
+  // event binding
+  submitBtn.addEventListener('click', handleLogin);
+  logoutBtn.addEventListener('click', handleLogout);
+  cashoutBtn.addEventListener('click', simulateCashout);
+  window.addEventListener('resize', () => {
+    setTimeout(handleCanvasResize, 100);
+  });
+  // initial canvas sizing observer
+  const resizeObserver = new ResizeObserver(() => handleCanvasResize());
+  if (canvas) resizeObserver.observe(canvas);
+  // on any tab switch we keep but redraw
+  document.addEventListener('visibilitychange', () => {
+    if (!dashboardPage.classList.contains('hidden-page') && roundActive && !isCrashed) {
+      let progress = currentMultiplier / currentTargetCrash;
+      drawFlightProgress(progress > 1 ? 1 : progress);
+    } else if (!dashboardPage.classList.contains('hidden-page') && isCrashed) {
+      drawFlightProgress(1);
     }
   });
 
-  // Get Logins button -> payment page
-  document.getElementById('getLoginsBtn').addEventListener('click', () => {
-    showPage('paymentPage');
-    document.getElementById('binanceIdLabel').innerText = BINANCE_ID;
-    document.getElementById('nestlinkTokenDemo').innerHTML = NESTLINK_URL;
-  });
-
-  // M-Pesa button opens Nestlink in new tab
-  document.getElementById('mpesaBtn').addEventListener('click', () => {
-    window.open(NESTLINK_URL, '_blank');
-  });
-
-  // Telegram contact button
-  document.getElementById('telegramContactBtn').addEventListener('click', () => {
-    window.open(TELEGRAM_LINK, '_blank');
-  });
-
-  // Back to landing
-  document.getElementById('backToLanding').addEventListener('click', () => {
-    showPage('landingPage');
-  });
-
-  // Logout
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    showPage('landingPage');
-    document.getElementById('loginUser').value = '';
-    document.getElementById('loginPass').value = '';
-  });
+  // pre-fill hint for demo & set canvas initial
+  loginUser.value = "";
+  loginPass.value = "";
+  // manual canvas init
+  if (canvas) {
+    canvas.addEventListener('load', () => handleCanvasResize());
+    setTimeout(() => handleCanvasResize(), 100);
+  }
+  // ensure no crash loops
+  console.log("SKYSCRIBE ready — deterministic sequence: 2 → 3 → 1.5 → 10 → 200");
 </script>
 </body>
 </html>
