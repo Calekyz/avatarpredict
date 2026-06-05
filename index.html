@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>SKYSCRIBE • AVIATOR CRASH ANALYZER</title>
+  <title>SKYSCRIBE • MANUAL PREDICTOR</title>
   <!-- Font Awesome 6 & Google Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,800&display=swap" rel="stylesheet">
@@ -24,7 +24,6 @@
       padding: 1.5rem;
     }
 
-    /* main glass card */
     .game-container {
       max-width: 680px;
       width: 100%;
@@ -40,7 +39,7 @@
       padding: 1.8rem 1.8rem 2rem;
     }
 
-    /* login styles - improved contrast */
+    /* login styles */
     .login-header {
       text-align: center;
       margin-bottom: 2rem;
@@ -63,9 +62,7 @@
       background-clip: text;
       color: transparent;
       font-weight: 800;
-      letter-spacing: -0.5px;
       margin-top: 0.3rem;
-      text-shadow: 0 0 2px rgba(255,0,0,0.3);
     }
     .badge-predict {
       background: rgba(239, 68, 68, 0.3);
@@ -87,7 +84,6 @@
       font-weight: 600;
       color: #e2e8f0;
       margin-bottom: 0.3rem;
-      letter-spacing: 0.3px;
     }
     input {
       width: 100%;
@@ -97,7 +93,6 @@
       padding: 0.8rem 1rem;
       color: #ffffff;
       font-size: 0.9rem;
-      transition: 0.2s;
       font-weight: 500;
     }
     input:focus {
@@ -115,9 +110,8 @@
       font-size: 1rem;
       color: white;
       cursor: pointer;
-      transition: transform 0.1s, filter 0.2s;
+      transition: 0.1s;
       margin-top: 0.5rem;
-      letter-spacing: 0.5px;
       box-shadow: 0 4px 12px rgba(220,38,38,0.4);
     }
     .btn-primary:active { transform: scale(0.97); }
@@ -137,7 +131,7 @@
       font-weight: 500;
       margin-top: 1rem;
     }
-    /* DASHBOARD STYLES - enhanced visibility */
+    /* DASHBOARD */
     .dashboard-header {
       display: flex;
       justify-content: space-between;
@@ -164,13 +158,11 @@
       padding: 1.2rem 0.5rem;
       margin: 1rem 0;
       border: 1px solid #ef444480;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     }
     .multiplier-number {
       font-size: 4rem;
       font-weight: 800;
       font-family: 'Inter', monospace;
-      letter-spacing: 2px;
       color: #ffd966;
       text-shadow: 0 0 8px #ef4444;
     }
@@ -214,7 +206,6 @@
       text-transform: uppercase;
       font-weight: 700;
       color: #b9c3e6;
-      letter-spacing: 0.5px;
     }
     .stat-value {
       font-size: 1.5rem;
@@ -267,11 +258,9 @@
       animation: crashFlash 0.5s ease-out;
     }
     @keyframes crashFlash {
-      0% { background-color: rgba(220, 38, 38, 0.7); text-shadow: 0 0 8px red; }
+      0% { background-color: rgba(220, 38, 38, 0.7); }
       100% { background-color: transparent; }
     }
-
-    /* BIG RED PREDICT BUTTON */
     .big-predict-btn {
       background: radial-gradient(circle at 30% 10%, #ff2e2e, #8b0000);
       border: none;
@@ -291,7 +280,6 @@
     }
     .big-predict-btn:active {
       transform: scale(0.97);
-      box-shadow: 0 2px 8px red;
     }
     @keyframes pulseRed {
       0% { box-shadow: 0 0 0 0 #ff4444aa; }
@@ -319,6 +307,15 @@
       border-radius: 2rem;
       margin-left: 8px;
     }
+    .idle-message {
+      background: #232842;
+      border-radius: 1rem;
+      padding: 0.4rem;
+      font-size: 0.7rem;
+      text-align: center;
+      color: #facc15;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -328,8 +325,8 @@
     <div id="loginPage">
       <div class="login-header">
         <div class="plane-icon">✈️</div>
-        <h1>SKYSCRIBE • CRASH SEQUENCE</h1>
-        <div class="badge-predict">deterministic flight path</div>
+        <h1>SKYSCRIBE • MANUAL CRASH</h1>
+        <div class="badge-predict">press PREDICT to start each round</div>
       </div>
       <div class="input-group">
         <label><i class="fas fa-user-astronaut"></i> Callsign</label>
@@ -341,34 +338,33 @@
       </div>
       <button class="btn-primary" id="submitLoginBtn"><i class="fas fa-radar"></i> ENTER COCKPIT</button>
       <div id="loginErrorMsg" class="alert-msg" style="display: none;"></div>
-      <footer>🔐 authorized personnel only — crash cycle: 2.0 → 3.0 → 1.5 → 10.0 → 200.0</footer>
+      <footer>🔐 Crash cycle: 2.0 → 3.0 → 1.5 → 10.0 → 200.0 (manual each step)</footer>
     </div>
 
-    <!-- MAIN DASHBOARD (PREDICTOR & PLANE) -->
+    <!-- DASHBOARD (predictor) -->
     <div id="dashboardPage" class="hidden-page">
       <div class="dashboard-header">
-        <div><i class="fas fa-chart-line" style="color:#f97316;"></i> <strong>CRASH ANALYZER PRO</strong></div>
-        <div class="crash-track"><i class="fas fa-bullseye"></i> round <span id="roundIndex">1</span>/5</div>
+        <div><i class="fas fa-chart-line" style="color:#f97316;"></i> <strong>MANUAL PREDICTOR</strong></div>
+        <div class="crash-track"><i class="fas fa-bullseye"></i> round <span id="roundIndex">0</span>/5</div>
         <button id="logoutBtnDashboard" class="btn-outline" style="width: auto; padding: 0.3rem 1rem; font-size:0.7rem;"><i class="fas fa-sign-out-alt"></i> exit</button>
       </div>
 
-      <!-- target multiplier preview -->
+      <!-- multiplier display -->
       <div class="multiplier-giant">
-        <div class="target-badge"><i class="fas fa-skull-crosswalk"></i> CURRENT CRASH TARGET → <span id="targetCrashDisplay">2.00</span>x</div>
+        <div class="target-badge"><i class="fas fa-skull-crosswalk"></i> NEXT CRASH TARGET → <span id="targetCrashDisplay">—</span>x</div>
         <div class="multiplier-number" id="currentMultiplierDisplay">1.00</div>
-        <div style="font-size:0.75rem; color:#cbd5e1; font-weight:500;"><i class="fas fa-plane"></i> live multiplier (auto progression)</div>
+        <div style="font-size:0.75rem; color:#cbd5e1;"><i class="fas fa-plane"></i> multiplier (only moves after PREDICT)</div>
       </div>
 
       <!-- BIG RED PREDICT BUTTON -->
       <button id="predictButton" class="big-predict-btn"><i class="fas fa-chart-simple"></i> 🔮 PREDICT 🔮</button>
       
-      <!-- Prediction result display -->
       <div id="predictionResultArea" class="prediction-result" style="display: none;">
-        <i class="fas fa-crystal-ball"></i> NEXT CRASH PREDICTION: 
+        <i class="fas fa-crystal-ball"></i> CRASH PREDICTION: 
         <span id="predictionValue" class="prediction-highlight">-</span>
       </div>
 
-      <!-- animated flight canvas -->
+      <!-- flight canvas -->
       <div class="flight-canvas-area">
         <canvas id="flightCanvas" width="600" height="130" style="width:100%; height:130px;"></canvas>
         <div style="display: flex; justify-content: space-between; margin-top: 5px; font-size:0.65rem; color:#a0a9ce;">
@@ -379,40 +375,39 @@
       </div>
 
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-label">flight stage</div><div class="stat-value" id="flightStatusText">IN FLIGHT</div></div>
-        <div class="stat-card"><div class="stat-label">next crash hint</div><div class="stat-value" id="nextCrashHint">3.00x</div></div>
-        <div class="stat-card"><div class="stat-label">sequence</div><div class="stat-value" id="sequenceProgress">2/5</div></div>
+        <div class="stat-card"><div class="stat-label">flight stage</div><div class="stat-value" id="flightStatusText">IDLE</div></div>
+        <div class="stat-card"><div class="stat-label">next crash hint</div><div class="stat-value" id="nextCrashHint">—</div></div>
+        <div class="stat-card"><div class="stat-label">sequence</div><div class="stat-value" id="sequenceProgress">0/5</div></div>
       </div>
 
-      <!-- Cash out button -->
       <button id="cashoutSimBtn" class="btn-primary cashout-btn"><i class="fas fa-hand-holding-usd"></i> CASH OUT (simulate win)</button>
-      <div id="cashoutToast" style="font-size:0.75rem; text-align:center; margin-top:8px; color:#bbf0bb; height:22px; font-weight:500;"></div>
+      <div id="cashoutToast" style="font-size:0.75rem; text-align:center; margin-top:8px; color:#bbf0bb; height:22px;"></div>
 
       <!-- crash history & upcoming cycle -->
       <div style="background:#0b0e1a; border-radius:1.2rem; padding:0.8rem; margin-top:1rem;">
-        <div style="color:#fff0cc; font-weight:600;"><i class="fas fa-history"></i> <strong>crash history</strong> (last rounds)</div>
+        <div style="color:#fff0cc; font-weight:600;"><i class="fas fa-history"></i> <strong>crash history</strong></div>
         <div id="crashHistoryContainer" class="history-list"><span class="history-chip">—</span></div>
-        <div class="next-sequence" style="margin-top: 10px;"><i class="fas fa-chart-simple"></i> deterministic cycle: <strong id="remainingCyclePreview">2 → 3 → 1.5 → 10 → 200</strong></div>
+        <div class="next-sequence"><i class="fas fa-chart-simple"></i> deterministic cycle: <strong id="remainingCyclePreview">2 → 3 → 1.5 → 10 → 200</strong></div>
       </div>
-      <footer>✈️ each round crashes exactly at predefined target • PREDICT shows upcoming crash value</footer>
+      <div class="idle-message"><i class="fas fa-info-circle"></i> Press PREDICT to start each round manually.</div>
+      <footer>✈️ plane moves only when you click PREDICT — no automatic progression.</footer>
     </div>
   </div>
 </div>
 
 <script>
-  // ======================= AUTHENTICATION =======================
+  // ========== AUTH ==========
   const VALID_USERNAME = "aviator4";
   const VALID_PASSWORD = "42055578";
 
-  // crash sequence exactly as requested: 2 , 3 , 1.5 , 10 , 200
+  // crash sequence
   const CRASH_SEQUENCE = [2, 3, 1.5, 10, 200];
-  let currentSequenceIndex = 0;          // points to next crash target (0..4)
-  let crashHistory = [];                 // stores last crash values
-  let roundActive = false;
-  let currentTargetCrash = CRASH_SEQUENCE[0];
+  let currentSequenceIndex = 0;        // next crash to be used when PREDICT is clicked
+  let crashHistory = [];
+  let roundActive = false;              // whether a round is currently running (multiplier climbing)
+  let currentTargetCrash = null;
   let currentMultiplier = 1.0;
   let animationFrameId = null;
-  let roundTimeoutId = null;
   let isCrashed = false;
 
   // DOM elements
@@ -440,47 +435,23 @@
   let canvas = document.getElementById('flightCanvas');
   let ctx = canvas.getContext('2d');
 
-  // helper: get next upcoming crash (the one that will happen after current round finishes)
-  function getUpcomingCrashValue() {
-    // The sequence is predetermined: after current crash, next index. But if round is active and not yet crashed, the currentTargetCrash is already fixed.
-    // For "predict" we show the NEXT crash that will occur after the ongoing round completes.
-    // If round is active (not crashed), the immediate future crash (current round's target) is already known but the user sees it as "current crash target".
-    // To match requirement "give predictions we said (2,3,1.5,10,200)", we can show the very next crash from the sequence (including the active if not yet crashed, or next round)
-    let nextIdx = currentSequenceIndex;
-    if (!roundActive || isCrashed) {
-      // if round finished or crashed, next round index is currentSequenceIndex
-      nextIdx = currentSequenceIndex;
+  // helper: update UI for idle state (no round active)
+  function updateIdleUI() {
+    targetCrashSpan.innerText = "—";
+    currentMultiplierSpan.innerText = "1.00";
+    flightStatusSpan.innerHTML = "🟢 IDLE";
+    flightStatusSpan.style.color = "#6ee7b7";
+    drawFlightProgress(0);
+    if (currentSequenceIndex < CRASH_SEQUENCE.length) {
+      nextCrashHintSpan.innerText = CRASH_SEQUENCE[currentSequenceIndex].toFixed(2) + "x";
     } else {
-      // round in progress: current target is the current crash; we could show either same (optional) but user expects upcoming: in deterministic cycle, after current crash, next one will be next in array.
-      // But to be explicit: predict shows the next crash that will occur in the round that is about to start? The description: "when i press it it will then give the predictions we said 2 then 3 then 1.5 then 10 then 200".  
-      // So we can show the crash value that will happen in the NEXT round (post current). But to keep it simple and align with the deterministic cycle, we will display the crash target of the current round if it hasn't crashed yet, 
-      // or the next upcoming if between rounds. However the user expects to see one of the numbers: we'll show the next crash that is guaranteed.
-      // Better: always show the crash target that will happen either in the active round (if not crashed) OR the next upcoming round after crash.
-      if (!isCrashed && roundActive) {
-        return currentTargetCrash;  // current round's crash point
-      } else {
-        return CRASH_SEQUENCE[currentSequenceIndex];
-      }
+      nextCrashHintSpan.innerText = "repeat";
     }
-    return CRASH_SEQUENCE[nextIdx];
+    sequenceProgressSpan.innerText = (currentSequenceIndex+1) + "/" + CRASH_SEQUENCE.length;
+    roundIndexSpan.innerText = (currentSequenceIndex+1);
+    updateCyclePreview();
   }
 
-  function displayPrediction() {
-    let upcoming = getUpcomingCrashValue();
-    predictionValueSpan.innerText = upcoming.toFixed(2) + "x";
-    predictionResultArea.style.display = "block";
-    // auto hide after 5 seconds? but let it stay until next predict
-    setTimeout(() => {
-      if (predictionResultArea.style.display !== "none") {
-        // do not hide automatically, keep visible until next press
-      }
-    }, 100);
-    // flash effect
-    predictionResultArea.style.transform = "scale(1.02)";
-    setTimeout(() => { predictionResultArea.style.transform = "scale(1)"; }, 200);
-  }
-
-  // update cycle preview text
   function updateCyclePreview() {
     let remainingArr = [];
     for (let i = currentSequenceIndex; i < CRASH_SEQUENCE.length; i++) {
@@ -493,7 +464,6 @@
     }
   }
 
-  // history UI
   function updateHistoryUI() {
     if (!crashHistoryContainer) return;
     if (crashHistory.length === 0) {
@@ -519,12 +489,9 @@
       cancelAnimationFrame(animationFrameId);
       animationFrameId = null;
     }
-    if (roundTimeoutId) {
-      clearTimeout(roundTimeoutId);
-      roundTimeoutId = null;
-    }
     roundActive = false;
     isCrashed = false;
+    currentTargetCrash = null;
   }
 
   function drawFlightProgress(progress) {
@@ -565,35 +532,65 @@
     ctx.fillText("CRASH ZONE", w-60, h-38);
   }
 
-  function updateRoundAnimation() {
-    if (!roundActive || isCrashed) return;
-    let remaining = currentTargetCrash - currentMultiplier;
-    if (remaining <= 0.001) {
-      triggerCrash();
-      return;
+  // main animation: multiplier climbs to target, then crashes
+  function startRoundAnimation() {
+    if (roundActive) return; // already running
+    if (currentSequenceIndex >= CRASH_SEQUENCE.length) {
+      // cycle repeats: reset index to 0 for endless loop
+      currentSequenceIndex = 0;
     }
-    let step = Math.max(0.012, remaining / 42);
-    if (currentTargetCrash > 50) step = Math.max(0.15, remaining / 38);
-    if (currentTargetCrash === 200) step = Math.max(0.28, remaining / 34);
-    currentMultiplier += step;
-    if (currentMultiplier >= currentTargetCrash) {
-      currentMultiplier = currentTargetCrash;
-      triggerCrash();
-      return;
+    currentTargetCrash = CRASH_SEQUENCE[currentSequenceIndex];
+    currentMultiplier = 1.0;
+    isCrashed = false;
+    roundActive = true;
+
+    // update UI for active round
+    targetCrashSpan.innerText = currentTargetCrash.toFixed(2);
+    currentMultiplierSpan.innerText = "1.00";
+    flightStatusSpan.innerHTML = "<i class='fas fa-fighter-jet'></i> IN FLIGHT";
+    flightStatusSpan.style.color = "#a3f0a3";
+    nextCrashHintSpan.innerText = (currentSequenceIndex+1 < CRASH_SEQUENCE.length) ? CRASH_SEQUENCE[currentSequenceIndex+1].toFixed(2)+"x" : "2.0x (repeat)";
+    sequenceProgressSpan.innerText = (currentSequenceIndex+1) + "/" + CRASH_SEQUENCE.length;
+    roundIndexSpan.innerText = (currentSequenceIndex+1);
+    updateCyclePreview();
+    drawFlightProgress(0);
+
+    // start animation loop
+    function animate() {
+      if (!roundActive || isCrashed) return;
+      let remaining = currentTargetCrash - currentMultiplier;
+      if (remaining <= 0.001) {
+        // crash
+        triggerCrash();
+        return;
+      }
+      let step = Math.max(0.012, remaining / 42);
+      if (currentTargetCrash > 50) step = Math.max(0.15, remaining / 38);
+      if (currentTargetCrash === 200) step = Math.max(0.28, remaining / 34);
+      currentMultiplier += step;
+      if (currentMultiplier >= currentTargetCrash) {
+        currentMultiplier = currentTargetCrash;
+        triggerCrash();
+        return;
+      }
+      currentMultiplierSpan.innerText = currentMultiplier.toFixed(2) + "x";
+      let progressRatio = currentMultiplier / currentTargetCrash;
+      if (progressRatio > 1) progressRatio = 1;
+      drawFlightProgress(progressRatio);
+      animationFrameId = requestAnimationFrame(animate);
     }
-    currentMultiplierSpan.innerText = currentMultiplier.toFixed(2) + "x";
-    let progressRatio = currentMultiplier / currentTargetCrash;
-    if (progressRatio > 1) progressRatio = 1;
-    drawFlightProgress(progressRatio);
-    animationFrameId = requestAnimationFrame(updateRoundAnimation);
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    animationFrameId = requestAnimationFrame(animate);
   }
 
   function triggerCrash() {
-    if (isCrashed || !roundActive) return;
+    if (!roundActive || isCrashed) return;
     isCrashed = true;
     roundActive = false;
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    animationFrameId = null;
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
     const multiplierDiv = document.querySelector('.multiplier-giant');
     if (multiplierDiv) multiplierDiv.classList.add('crash-flash');
     setTimeout(() => multiplierDiv?.classList.remove('crash-flash'), 500);
@@ -602,69 +599,67 @@
     currentMultiplierSpan.innerText = currentTargetCrash.toFixed(2) + "x 💥";
     drawFlightProgress(1);
     pushToHistory(currentTargetCrash);
-    roundTimeoutId = setTimeout(() => {
-      currentSequenceIndex = (currentSequenceIndex + 1) % CRASH_SEQUENCE.length;
-      startNewRound();
-    }, 2200);
+    // after crash, move to next index for next predict
+    currentSequenceIndex = (currentSequenceIndex + 1) % CRASH_SEQUENCE.length;
+    updateIdleUI();  // go back to idle state, waiting for next predict
+    // show prediction result for next round (optional)
+    let nextPrediction = CRASH_SEQUENCE[currentSequenceIndex];
+    predictionValueSpan.innerText = nextPrediction.toFixed(2) + "x";
+    predictionResultArea.style.display = "block";
+    setTimeout(() => {
+      // keep visible but user can predict again
+    }, 100);
   }
 
-  function startNewRound() {
-    stopRoundAndClear();
-    currentTargetCrash = CRASH_SEQUENCE[currentSequenceIndex];
-    currentMultiplier = 1.0;
-    isCrashed = false;
-    roundActive = true;
-    targetCrashSpan.innerText = currentTargetCrash.toFixed(2);
-    currentMultiplierSpan.innerText = "1.00";
-    flightStatusSpan.innerHTML = "<i class='fas fa-fighter-jet'></i> IN FLIGHT";
-    flightStatusSpan.style.color = "#a3f0a3";
-    let nextIdx = (currentSequenceIndex + 1) % CRASH_SEQUENCE.length;
-    nextCrashHintSpan.innerText = CRASH_SEQUENCE[nextIdx].toFixed(2) + "x";
-    sequenceProgressSpan.innerText = (currentSequenceIndex+1) + "/" + CRASH_SEQUENCE.length;
-    roundIndexSpan.innerText = (currentSequenceIndex+1);
-    updateCyclePreview();
-    drawFlightProgress(0);
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    animationFrameId = requestAnimationFrame(updateRoundAnimation);
-  }
-
-  function initGameSession() {
-    currentSequenceIndex = 0;
-    crashHistory = [];
-    updateHistoryUI();
-    if (roundTimeoutId) clearTimeout(roundTimeoutId);
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    roundActive = false;
-    isCrashed = false;
-    currentMultiplier = 1.0;
-    currentTargetCrash = CRASH_SEQUENCE[0];
-    startNewRound();
+  // called when user clicks PREDICT button
+  function handlePredict() {
+    if (roundActive) {
+      cashoutToast.innerText = "⚠️ Round in progress! Wait for crash or cash out first.";
+      setTimeout(() => cashoutToast.innerText = "", 1800);
+      return;
+    }
+    // if idle, start new round with currentSequenceIndex (already points to next crash)
+    startRoundAnimation();
+    // also show prediction for this round's crash target
+    let currentPrediction = CRASH_SEQUENCE[currentSequenceIndex];
+    predictionValueSpan.innerText = currentPrediction.toFixed(2) + "x";
+    predictionResultArea.style.display = "block";
+    // small flash effect on button
+    predictButton.style.transform = "scale(0.98)";
+    setTimeout(() => predictButton.style.transform = "", 150);
   }
 
   function simulateCashout() {
     if (!roundActive || isCrashed) {
-      cashoutToast.innerText = "⚠️ Round already finished or crashed!";
+      cashoutToast.innerText = "⚠️ No active round or round already crashed!";
       setTimeout(() => cashoutToast.innerText = "", 1500);
       return;
     }
     let winValue = currentMultiplier;
     cashoutToast.innerText = `💰 Simulated cashout at ${winValue.toFixed(2)}x! (demo win)`;
     setTimeout(() => cashoutToast.innerText = "", 2000);
+    // optional: after cashout, stop round and mark as finished without crash? but we keep original: cashout is just visual.
   }
 
+  // login / logout
   function showLogin() {
     loginPage.classList.remove('hidden-page');
     dashboardPage.classList.add('hidden-page');
     if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    if (roundTimeoutId) clearTimeout(roundTimeoutId);
     roundActive = false;
   }
 
   function showDashboard() {
     loginPage.classList.add('hidden-page');
     dashboardPage.classList.remove('hidden-page');
-    initGameSession();
-    // reset prediction area
+    // reset state to idle, first crash index = 0
+    currentSequenceIndex = 0;
+    crashHistory = [];
+    roundActive = false;
+    isCrashed = false;
+    currentTargetCrash = null;
+    updateHistoryUI();
+    updateIdleUI();
     predictionResultArea.style.display = "none";
   }
 
@@ -675,7 +670,7 @@
       loginError.style.display = 'none';
       showDashboard();
     } else {
-      loginError.innerHTML = '<i class="fas fa-skull"></i> Invalid credentials · Access denied. Use aviator4 / 42055578';
+      loginError.innerHTML = '<i class="fas fa-skull"></i> Invalid credentials. Use aviator4 / 42055578';
       loginError.style.display = 'block';
     }
   }
@@ -690,7 +685,7 @@
 
   function handleCanvasResize() {
     if (!canvas || !ctx) return;
-    if (roundActive && !isCrashed) {
+    if (roundActive && !isCrashed && currentTargetCrash) {
       let progress = currentMultiplier / currentTargetCrash;
       drawFlightProgress(progress > 1 ? 1 : progress);
     } else if (isCrashed) {
@@ -700,22 +695,17 @@
     }
   }
 
-  // Event binding
+  // event binding
   submitBtn.addEventListener('click', handleLogin);
   logoutBtn.addEventListener('click', handleLogout);
   cashoutBtn.addEventListener('click', simulateCashout);
-  predictButton.addEventListener('click', () => {
-    displayPrediction();
-    // also optional: visual feedback
-    predictButton.style.transform = "scale(0.98)";
-    setTimeout(() => predictButton.style.transform = "", 120);
-  });
+  predictButton.addEventListener('click', handlePredict);
 
   window.addEventListener('resize', () => setTimeout(handleCanvasResize, 100));
   const resizeObserver = new ResizeObserver(() => handleCanvasResize());
   if (canvas) resizeObserver.observe(canvas);
   document.addEventListener('visibilitychange', () => {
-    if (!dashboardPage.classList.contains('hidden-page') && roundActive && !isCrashed) {
+    if (!dashboardPage.classList.contains('hidden-page') && roundActive && !isCrashed && currentTargetCrash) {
       let progress = currentMultiplier / currentTargetCrash;
       drawFlightProgress(progress > 1 ? 1 : progress);
     } else if (!dashboardPage.classList.contains('hidden-page') && isCrashed) {
@@ -725,10 +715,7 @@
 
   loginUser.value = "";
   loginPass.value = "";
-  if (canvas) {
-    canvas.addEventListener('load', () => handleCanvasResize());
-    setTimeout(() => handleCanvasResize(), 100);
-  }
+  if (canvas) setTimeout(() => handleCanvasResize(), 100);
 </script>
 </body>
 </html>
